@@ -12,6 +12,8 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
 
+// MARK: - Custom Errors
+
 enum SignInError: Error {
     case failedToGetUserId
 }
@@ -22,26 +24,15 @@ enum ImageError: Error {
 }
 
 
-struct PostModel: Identifiable, Codable {
-    var id: String
-    var imageURL: String
-    var date: Date
-
-    func asDictionary() -> [String: Any] {
-        return [
-            "id": id,
-            "imageURL": imageURL,
-            "date": Timestamp(date: date) // Convert the Date object to a Firestore Timestamp
-        ]
-    }
-}
-
+// An observable object responsible for handling image data and interacting with Firebase services.
 class ImageData: ObservableObject {
     @Published var imagesForDays: [String: UIImage] = [:]
-    private let storage = Storage.storage()
-    private let db = Firestore.firestore()
     @Published var currentUserId: String?
     
+    private let storage = Storage.storage()
+    private let db = Firestore.firestore()
+    
+    // MARK: - Public Methods
     
     func updateImageForDay(day: String, image: UIImage) {
         imagesForDays[day] = image
@@ -85,7 +76,6 @@ class ImageData: ObservableObject {
         }
     }
 
-    
     func fetchPostsForUser(userId: String, completion: @escaping (Result<[String: PostModel], Error>) -> Void) {
         guard let userId = currentUserId else { return }
 
@@ -109,8 +99,6 @@ class ImageData: ObservableObject {
         }
     }
 
-
-
     func updateImagesForDays(posts: [PostModel]) {
         for post in posts {
             loadImage(from: post.imageURL) { postImage in
@@ -125,48 +113,7 @@ class ImageData: ObservableObject {
             }
         }
     }
-
-
-
     
-    func uploadImageToStorage(image: UIImage, userId: String, dateKey: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            completion(.failure(ImageError.failedToCompressImage))
-            return
-        }
-        
-        let storageRef = storage.reference().child("images/\(userId)/\(dateKey).jpg")
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        
-        storageRef.putData(imageData, metadata: metadata) { _, error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                storageRef.downloadURL { url, error in
-                    if let error = error {
-                        completion(.failure(error))
-                    } else if let url = url {
-                        completion(.success(url.absoluteString))
-                    }
-                }
-            }
-        }
-    }
-
-    func savePostToFirestore(imageURL: String, date: Date, userId: String) {
-        let newPost = PostModel(id: UUID().uuidString, imageURL: imageURL, date: date)
-
-        // Update the user document with the new post
-        db.collection("users").document(userId).updateData([
-            "posts.\(newPost.id)": newPost.asDictionary()
-        ]) { error in
-            if let error = error {
-                print("Error saving post: \(error)")
-            }
-        }
-    }
-
     func fetchImagesForUser(posts: [String: PostModel], completion: @escaping (Result<Void, Error>) -> Void) {
         let dispatchGroup = DispatchGroup()
         var fetchError: Error?
@@ -198,9 +145,47 @@ class ImageData: ObservableObject {
     }
 
 
-
+    // MARK: - Private Methods
     
-    func loadImage(from url: String, completion: @escaping (UIImage?) -> Void) {
+    private func uploadImageToStorage(image: UIImage, userId: String, dateKey: String, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(.failure(ImageError.failedToCompressImage))
+            return
+        }
+        
+        let storageRef = storage.reference().child("images/\(userId)/\(dateKey).jpg")
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        storageRef.putData(imageData, metadata: metadata) { _, error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                storageRef.downloadURL { url, error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let url = url {
+                        completion(.success(url.absoluteString))
+                    }
+                }
+            }
+        }
+    }
+
+    private func savePostToFirestore(imageURL: String, date: Date, userId: String) {
+        let newPost = PostModel(id: UUID().uuidString, imageURL: imageURL, date: date)
+
+        // Update the user document with the new post
+        db.collection("users").document(userId).updateData([
+            "posts.\(newPost.id)": newPost.asDictionary()
+        ]) { error in
+            if let error = error {
+                print("Error saving post: \(error)")
+            }
+        }
+    }
+    
+    private func loadImage(from url: String, completion: @escaping (UIImage?) -> Void) {
             guard let imageURL = URL(string: url) else {
                 print("Invalid image URL")
                 completion(nil)

@@ -19,12 +19,6 @@ struct MainTabView: View {
                     Label("Calendar", systemImage: "calendar")
                 }
             
-//            FeedView(calendarManager: calendarManager)
-//                .environmentObject(imageData)
-//                .tabItem {
-//                    Label("Feed", systemImage: "rectangle.grid.1x2")
-//                }
-            
             SettingsView()
                 .environmentObject(authManager)
                 .tabItem {

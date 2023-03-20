@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// DaysOfWeekView displays the names of the days of the week in a horizontal stack.
 struct DaysOfWeekView: View {
     let daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 

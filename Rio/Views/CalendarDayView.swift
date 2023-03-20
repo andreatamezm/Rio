@@ -8,6 +8,9 @@
 import SwiftUI
 import FirebaseAuth
 
+// CalendarDayView is a custom View component that represents a single day in a calendar grid.
+// It displays a day's number and associated image, if available.
+// If the day is the current day, the user can tap on it to either open an existing image or show an ImagePicker to select a new one.
 struct CalendarDayView: View {
     let dayIndex: Int
     let rowHeight: CGFloat
@@ -56,45 +59,6 @@ struct CalendarDayView: View {
                 }
                 showChangeImagePicker = false
             }
-        }
-    }
-}
-
-    
-struct CalendarDayViewContent: View {
-    let dayIndex: Int
-    let isCurrentDay: Bool
-    let monthOfSelectedDay: Int
-    let yearOfSelectedDay: Int
-    @EnvironmentObject var imageData: ImageData
-
-    var body: some View {
-        GeometryReader { geometry in
-            let frameWidth = geometry.size.width
-            let frameHeight = frameWidth * 16 / 9
-            
-            ZStack {
-                Rectangle()
-                    .fill(isCurrentDay ? Color(hex: "CBE0EA") : Color(hex: "CBE0EA").opacity(0.5))
-                
-                let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
-
-                if let image = imageData.imagesForDays[key] {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: frameWidth, height: frameHeight)
-                                .clipped()
-                        }
-                
-                Rectangle()
-                    .stroke(Color.black, lineWidth: 1)
-                    .cornerRadius(3)
-                
-                Text("\(dayIndex)")
-                    .font(.system(size: 16, weight: .bold))
-            }
-            .frame(width: frameWidth, height: frameHeight)
         }
     }
 }

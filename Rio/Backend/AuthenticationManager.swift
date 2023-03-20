@@ -5,7 +5,6 @@
 //  Created by Andrea Tamez on 3/19/23.
 //
 
-import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 import Combine
@@ -17,6 +16,7 @@ class AuthenticationManager: ObservableObject {
     @Published var userModel: UserModel?
     @Published var imageData = ImageData()
     
+    // Start listening for authentication state changes and update user and user data accordingly
     func listen() {
         handle = Auth.auth().addStateDidChangeListener { auth, user in
             self.user = user
@@ -39,6 +39,14 @@ class AuthenticationManager: ObservableObject {
         }
     }
     
+    // Stop listening for authentication state changes
+    func unlisten() {
+        if let handle = handle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
+    }
+    
+    // Create a new user account with the specified email, password, and username, then store the user data in Firestore
     func signUp(email: String, password: String, username: String, completion: @escaping (Result<User, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -57,8 +65,7 @@ class AuthenticationManager: ObservableObject {
         }
     }
 
-    
-
+    // Sign in an existing user with the specified email and password
     func signIn(email: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
@@ -68,7 +75,18 @@ class AuthenticationManager: ObservableObject {
             }
         }
     }
+    
+    // Sign out the currently authenticated user
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            user = nil
+        } catch {
+            print("Error signing out: \(error.localizedDescription)")
+        }
+    }
 
+    // Fetch the user data for a specific user from Firestore
     private func fetchUserData(userId: String, completion: @escaping (Result<UserModel, Error>) -> Void) {
         db.collection("users").document(userId).getDocument { document, error in
             if let error = error {
@@ -87,29 +105,13 @@ class AuthenticationManager: ObservableObject {
             }
         }
     }
-
     
-    func signOut() {
-        do {
-            try Auth.auth().signOut()
-            user = nil
-        } catch {
-            print("Error signing out: \(error.localizedDescription)")
-        }
-    }
-    
+    // Create a new user document in Firestore with the provided UserModel data
     func createUserInDatabase(user: UserModel, completion: @escaping (Result<Void, Error>) -> Void) {
         do {
             let _ = try db.collection("users").document(user.id).setData(from: user)
         } catch {
             completion(.failure(error))
-        }
-    }
-
-    
-    func unlisten() {
-        if let handle = handle {
-            Auth.auth().removeStateDidChangeListener(handle)
         }
     }
 }

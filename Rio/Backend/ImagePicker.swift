@@ -14,10 +14,12 @@ struct ImagePicker: UIViewControllerRepresentable {
     let sourceType: UIImagePickerController.SourceType
     var onImagePicked: ((UIImage?) -> Void)?
 
+    // Create the Coordinator for the ImagePicker
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
+    // Create a new UIImagePickerController with the specified source type
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePickerController = UIImagePickerController()
         imagePickerController.sourceType = sourceType
@@ -25,8 +27,10 @@ struct ImagePicker: UIViewControllerRepresentable {
         return imagePickerController
     }
 
+    // Update the UIViewController (not needed in this case)
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
 
+    // The Coordinator handles UIImagePickerControllerDelegate events
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         let parent: ImagePicker
 
@@ -34,6 +38,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
 
+        // Handle image picker didFinishPickingMediaWithInfo event
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 parent.selectedImage = image
@@ -44,6 +49,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             picker.dismiss(animated: true)
         }
 
+        // Handle image picker cancellation
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.onImagePicked?(nil)
             picker.dismiss(animated: true)

@@ -8,7 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 
-
+// CalendarGridView displays a grid of CalendarWeekView instances,
+// representing a full month of calendar weeks.
 struct CalendarGridView: View {
     @ObservedObject var calendarManager: CalendarManager
     let rowHeight: CGFloat
@@ -17,10 +18,9 @@ struct CalendarGridView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 5) {
-            ForEach(0..<6, id: \.self) { week in
-                CalendarWeekView(week: week, calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
+            ForEach(0..<6, id: \.self) { weekIndex in
+                CalendarWeekView(week: weekIndex, calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
             }
         }
     }
 }
-

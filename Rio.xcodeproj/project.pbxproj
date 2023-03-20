@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49828FC829C8408F001EA987 /* AppDelegate.swift */; };
+		49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869BFE29C8FC390022DD05 /* PostModel.swift */; };
+		49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */; };
+		49869C0429C9015B0022DD05 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869C0329C9015B0022DD05 /* Color+Extensions.swift */; };
 		49C08C6429C830F900F2B5D2 /* RioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08C6329C830F900F2B5D2 /* RioApp.swift */; };
 		49C08C6629C830F900F2B5D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08C6529C830F900F2B5D2 /* ContentView.swift */; };
 		49C08C6829C830FB00F2B5D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49C08C6729C830FB00F2B5D2 /* Assets.xcassets */; };
@@ -68,6 +72,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		49828FC829C8408F001EA987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		49869BFE29C8FC390022DD05 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayViewContent.swift; sourceTree = "<group>"; };
+		49869C0329C9015B0022DD05 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		49C08C6029C830F900F2B5D2 /* Rio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49C08C6329C830F900F2B5D2 /* RioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RioApp.swift; sourceTree = "<group>"; };
 		49C08C6529C830F900F2B5D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +147,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49828FCA29C84173001EA987 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				49C08C6529C830F900F2B5D2 /* ContentView.swift */,
+				49C08CBC29C8320E00F2B5D2 /* SettingsView.swift */,
+				49C08CBA29C831F900F2B5D2 /* LoginView.swift */,
+				49C08CC029C8325200F2B5D2 /* MainTabView.swift */,
+				49C08CC229C8326400F2B5D2 /* CalendarView.swift */,
+				49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */,
+				49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */,
+				49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */,
+				49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */,
+				49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		49828FCB29C8417C001EA987 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				49828FC829C8408F001EA987 /* AppDelegate.swift */,
+				49C08C8D29C8315E00F2B5D2 /* AuthenticationManager.swift */,
+				49C08CB829C831C100F2B5D2 /* CalendarManager.swift */,
+				49C08CBE29C8322E00F2B5D2 /* ImagePicker.swift */,
+				49C08CC629C8328C00F2B5D2 /* ImageData.swift */,
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
+		49869C0229C8FFC90022DD05 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				49C08CC429C8327F00F2B5D2 /* UserModel.swift */,
+				49869BFE29C8FC390022DD05 /* PostModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		49869C0529C902090022DD05 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				49869C0329C9015B0022DD05 /* Color+Extensions.swift */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
 		49C08C5729C830F900F2B5D2 = {
 			isa = PBXGroup;
 			children = (
@@ -164,20 +218,10 @@
 			children = (
 				49C08CD029C8341100F2B5D2 /* GoogleService-Info.plist */,
 				49C08C6329C830F900F2B5D2 /* RioApp.swift */,
-				49C08C8D29C8315E00F2B5D2 /* AuthenticationManager.swift */,
-				49C08CB829C831C100F2B5D2 /* CalendarManager.swift */,
-				49C08CBA29C831F900F2B5D2 /* LoginView.swift */,
-				49C08CBE29C8322E00F2B5D2 /* ImagePicker.swift */,
-				49C08CC029C8325200F2B5D2 /* MainTabView.swift */,
-				49C08CC229C8326400F2B5D2 /* CalendarView.swift */,
-				49C08CC429C8327F00F2B5D2 /* UserModel.swift */,
-				49C08CC629C8328C00F2B5D2 /* ImageData.swift */,
-				49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */,
-				49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */,
-				49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */,
-				49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */,
-				49C08CBC29C8320E00F2B5D2 /* SettingsView.swift */,
-				49C08C6529C830F900F2B5D2 /* ContentView.swift */,
+				49869C0529C902090022DD05 /* Style */,
+				49869C0229C8FFC90022DD05 /* Models */,
+				49828FCB29C8417C001EA987 /* Backend */,
+				49828FCA29C84173001EA987 /* Views */,
 				49C08C6729C830FB00F2B5D2 /* Assets.xcassets */,
 				49C08C6929C830FB00F2B5D2 /* Preview Content */,
 			);
@@ -369,15 +413,19 @@
 				49C08CB929C831C100F2B5D2 /* CalendarManager.swift in Sources */,
 				49C08C6629C830F900F2B5D2 /* ContentView.swift in Sources */,
 				49C08CC929C832A200F2B5D2 /* CalendarDayView.swift in Sources */,
+				49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */,
 				49C08CC129C8325200F2B5D2 /* MainTabView.swift in Sources */,
 				49C08CBF29C8322E00F2B5D2 /* ImagePicker.swift in Sources */,
 				49C08CC329C8326400F2B5D2 /* CalendarView.swift in Sources */,
 				49C08CCF29C832D900F2B5D2 /* DaysOfWeekView.swift in Sources */,
+				49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */,
 				49C08CC729C8328C00F2B5D2 /* ImageData.swift in Sources */,
+				49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */,
 				49C08CBD29C8320E00F2B5D2 /* SettingsView.swift in Sources */,
 				49C08CBB29C831F900F2B5D2 /* LoginView.swift in Sources */,
 				49C08CCB29C832B700F2B5D2 /* CalendarWeekView.swift in Sources */,
 				49C08CC529C8327F00F2B5D2 /* UserModel.swift in Sources */,
+				49869C0429C9015B0022DD05 /* Color+Extensions.swift in Sources */,
 				49C08CCD29C832C800F2B5D2 /* CalendarGridView.swift in Sources */,
 				49C08C6429C830F900F2B5D2 /* RioApp.swift in Sources */,
 			);
