@@ -9,9 +9,10 @@ import Foundation
 import FirebaseFirestore
 
 struct PostModel: Identifiable, Codable {
-    var id: String
-    var imageURL: String
-    var date: Date
+    let id: String
+    let imageURL: String
+    let date: Date
+    
 
     func asDictionary() -> [String: Any] {
         return [

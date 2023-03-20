@@ -82,9 +82,6 @@ struct CalendarView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color(hex: "90DFFE"), Color(hex: "38A3D1")]), startPoint: .top, endPoint: .bottom)
-                    .edgesIgnoringSafeArea(.all)
-                
                 VStack(alignment: .center, spacing: 0.0) {
                     HStack {
                         Button(action: {
@@ -92,21 +89,29 @@ struct CalendarView: View {
                         }, label: {
                             Image(systemName: "chevron.left")
                                 .font(.title)
+                                .frame(maxWidth: 20, alignment: .leading)
                         })
                         Text(calendarManager.monthAndYear)
                             .font(.system(size: 22, weight: .bold))
+                            .frame(maxWidth: .infinity, alignment: .center)
+
                         Button(action: {
                             calendarManager.moveToNextMonth()
                         }, label: {
                             Image(systemName: "chevron.right")
                                 .font(.title)
+                                .frame(maxWidth: 20, alignment: .trailing)
+
                         })
                     }
+                    .padding(20)
                     
                     DaysOfWeekView()
+                        .padding(10)
                     
                     CalendarGridView(calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
                         .environmentObject(imageData)
+                        .padding(10)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }

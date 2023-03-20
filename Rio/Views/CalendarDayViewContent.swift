@@ -37,11 +37,12 @@ struct CalendarDayViewContent: View {
                         }
                 
                 Rectangle()
-                    .stroke(Color.black, lineWidth: 1)
-                    .cornerRadius(3)
+                    .stroke(Color.gray, lineWidth: 1)
                 
                 Text("\(dayIndex)")
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.gray)
+                    
             }
             .frame(width: frameWidth, height: frameHeight)
         }

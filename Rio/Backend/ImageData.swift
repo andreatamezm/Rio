@@ -32,6 +32,13 @@ class ImageData: ObservableObject {
     private let storage = Storage.storage()
     private let db = Firestore.firestore()
     
+    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
     // MARK: - Public Methods
     
     func updateImageForDay(day: String, image: UIImage) {
@@ -118,16 +125,16 @@ class ImageData: ObservableObject {
         let dispatchGroup = DispatchGroup()
         var fetchError: Error?
         
+        // Initialize imagesForDays with nil values for all days
+        initializeImagesForDays()
+        
+        // Fetch images for days with non-nil values
         for (_, post) in posts {
             dispatchGroup.enter()
             loadImage(from: post.imageURL) { image in
                 if let image = image {
-                    DispatchQueue.main.async {
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy-MM-dd"
-                        let dateString = dateFormatter.string(from: post.date)
-                        self.imagesForDays[dateString] = image
-                    }
+                    let dateString = self.dateFormatter.string(from: post.date)
+                    self.imagesForDays[dateString] = image
                 } else {
                     fetchError = ImageError.failedToLoadImage
                 }
@@ -143,6 +150,18 @@ class ImageData: ObservableObject {
             }
         }
     }
+
+    private func initializeImagesForDays() {
+        let startDate = Calendar.current.startOfDay(for: Date())
+        let endDate = Calendar.current.date(byAdding: .year, value: 1, to: startDate)!
+        var currentDate = startDate
+        while currentDate <= endDate {
+            let dateString = dateFormatter.string(from: currentDate)
+            imagesForDays[dateString] = nil
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        }
+    }
+
     
     func listenToPostsForUser(userId: String, completion: @escaping (Result<[String: PostModel], Error>) -> Void) {
         db.collection("users").document(userId).addSnapshotListener { documentSnapshot, error in
