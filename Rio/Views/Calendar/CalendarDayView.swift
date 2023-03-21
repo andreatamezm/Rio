@@ -15,7 +15,7 @@ struct CalendarDayView: View {
     let rowHeight: CGFloat
     let showImagePicker: (Int) -> Void
     @ObservedObject var calendarManager: CalendarManager
-    @EnvironmentObject var imageData: ImageData
+    @EnvironmentObject var postData: PostData
     @State private var showOpenImageView = false
     @State private var showChangeImagePicker = false
 
@@ -30,15 +30,15 @@ struct CalendarDayView: View {
         
         Button(action: {
             let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
-            if imageData.imagesForDays[key] == nil && isCurrentDay {
+            if postData.imagesForDays[key] == nil && isCurrentDay {
                 showImagePicker(dayIndex)
-            } else if imageData.imagesForDays[key] != nil {
+            } else if postData.imagesForDays[key] != nil {
                 showOpenImageView = true
             }
             
         }, label: {
             CalendarDayViewContent(dayIndex: dayIndex, isCurrentDay: isCurrentDay, monthOfSelectedDay: monthOfSelectedDay, yearOfSelectedDay: yearOfSelectedDay) // Pass the current user's ID
-                .environmentObject(imageData)
+                .environmentObject(postData)
         })
         .frame(maxWidth: .infinity, maxHeight: rowHeight)
         .clipped()
@@ -46,7 +46,7 @@ struct CalendarDayView: View {
             ImagePicker(selectedImage: .constant(nil), sourceType: .photoLibrary) { image in
                 if let image = image {
                     let currentDate = Calendar.current.date(from: DateComponents(year: yearOfSelectedDay, month: monthOfSelectedDay, day: dayIndex))!
-                    imageData.createPost(image: image, caption: "", date: currentDate) { result in
+                    postData.createPost(image: image, caption: "", date: currentDate) { result in
                         switch result {
                         case .success:
                             print("Post created successfully")
@@ -60,14 +60,14 @@ struct CalendarDayView: View {
         }
         .sheet(isPresented: $showOpenImageView) {
             if let imageKey = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex),
-               let image = imageData.imagesForDays[imageKey] {
-                let caption = imageData.captionsForDays[imageKey] ?? "No caption"
+               let image = postData.imagesForDays[imageKey] {
+                let caption = postData.captionsForDays[imageKey] ?? "No caption"
             
                 
                 ImageViewer(image: image, caption: caption)
                     .onAppear(){
                         print("Image key: \(imageKey)") // Print the image key
-                        print("Captions for days: \(imageData.captionsForDays)") // Print the captionsForDays dictionary
+                        print("Captions for days: \(postData.captionsForDays)") // Print the captionsForDays dictionary
                         print("Caption for day \(dayIndex): \(caption)") // Print the fetched caption
                         
                     }

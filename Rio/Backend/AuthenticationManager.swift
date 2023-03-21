@@ -14,7 +14,7 @@ class AuthenticationManager: ObservableObject {
     private var handle: AuthStateDidChangeListenerHandle?
     private let db = Firestore.firestore()
     @Published var userModel: UserModel?
-    @Published var imageData = ImageData()
+    @Published var postData = PostData()
     
     // Start listening for authentication state changes and update user and user data accordingly
     func listen() {
@@ -28,13 +28,13 @@ class AuthenticationManager: ObservableObject {
                     case .success(let userModel):
                         DispatchQueue.main.async {
                             self.userModel = userModel
-                            self.imageData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
+                            self.postData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
                         }
                     }
                 }
             } else {
                 self.userModel = nil
-                self.imageData.imagesForDays.removeAll()
+                self.postData.imagesForDays.removeAll()
             }
         }
     }
@@ -65,7 +65,7 @@ class AuthenticationManager: ObservableObject {
                             case .success(let userModel):
                                 DispatchQueue.main.async {
                                     self.userModel = userModel
-                                    self.imageData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
+                                    self.postData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
                                 }
                             }
                             completion(.success(user))

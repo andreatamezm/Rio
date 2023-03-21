@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var calendarManager = CalendarManager()
     @StateObject private var authManager = AuthenticationManager()
-    @StateObject private var imageData = ImageData()
+    @StateObject private var postData = PostData()
 
     var body: some View {
         NavigationView {
@@ -19,7 +19,7 @@ struct ContentView: View {
                 MainTabView()
                     .environmentObject(calendarManager)
                     .environmentObject(authManager)
-                    .environmentObject(imageData)
+                    .environmentObject(postData)
             } else {
                 LoginView()
                     .environmentObject(authManager)

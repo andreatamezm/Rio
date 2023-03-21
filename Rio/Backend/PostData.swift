@@ -1,5 +1,5 @@
 //
-//  ImageData.swift
+//  PostData.swift
 //  Rio
 //
 //  Created by Andrea Tamez on 3/19/23.
@@ -25,16 +25,14 @@ enum ImageError: Error {
 
 
 // An observable object responsible for handling image data and interacting with Firebase services.
-class ImageData: ObservableObject {
+class PostData: ObservableObject {
     @Published var imagesForDays: [String: UIImage] = [:]
     @Published var captionsForDays: [String: String] = [:]
     @Published var currentUserId: String?
     
     private let storage = Storage.storage()
     private let db = Firestore.firestore()
-    
-    
-    private let dateFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
@@ -46,11 +44,6 @@ class ImageData: ObservableObject {
         imagesForDays[day] = image
         print("Updated image for day: \(day), imagesForDays: \(imagesForDays)")
         objectWillChange.send()
-    }
-    
-    func addCaption(forDay day: String, caption: String) {
-        captionsForDays[day] = caption
-        saveCaption(caption, forKey: day)
     }
     
     func createPost(image: UIImage, caption: String, date: Date, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -89,40 +82,6 @@ class ImageData: ObservableObject {
             }
         }
     }
-
-    func fetchPostsForUser(userId: String, completion: @escaping (Result<[String: PostModel], Error>) -> Void) {
-        guard let userId = currentUserId else { return }
-
-        db.collection("users").document(userId).getDocument { (document, error) in
-            if let error = error {
-                completion(.failure(error))
-            } else if let document = document, document.exists {
-                do {
-                    if let data = document.data() {
-                        let userModel = try Firestore.Decoder().decode(UserModel.self, from: data)
-
-                        // With this custom decoding process:
-                        var updatedPosts: [String: PostModel] = [:]
-                        for (key, value) in userModel.posts {
-                            if let valueDict = value as? [String: Any] {
-                                var post = try Firestore.Decoder().decode(PostModel.self, from: valueDict)
-                                updatedPosts[key] = post
-                            }
-                        }
-                        completion(.success(updatedPosts))
-                    } else {
-                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse user model"])))
-                    }
-                } catch {
-                    completion(.failure(error))
-                }
-            } else {
-                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User document not found"])))
-            }
-        }
-    }
-
-
 
 
     func updateImagesAndCaptionsForDays(posts: [PostModel]) {
@@ -196,19 +155,6 @@ class ImageData: ObservableObject {
         }
     }
 
-
-    private func saveCaption(_ caption: String, forKey key: String) {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-
-        let documentRef = db.collection("users").document(userId).collection("captions").document(key)
-        documentRef.setData(["caption": caption]) { error in
-            if let error = error {
-                print("Error saving caption: \(error)")
-            } else {
-                print("Caption saved successfully")
-            }
-        }
-    }
     
     func listenToPostsForUser(userId: String, completion: @escaping (Result<[String: PostModel], Error>) -> Void) {
         db.collection("users").document(userId).addSnapshotListener { documentSnapshot, error in
@@ -236,7 +182,7 @@ class ImageData: ObservableObject {
     // MARK: - Private Methods
     
     private func uploadImageToStorage(image: UIImage, userId: String, dateKey: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+        guard let postData = image.jpegData(compressionQuality: 0.5) else {
             completion(.failure(ImageError.failedToCompressImage))
             return
         }
@@ -245,7 +191,7 @@ class ImageData: ObservableObject {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         
-        storageRef.putData(imageData, metadata: metadata) { _, error in
+        storageRef.putData(postData, metadata: metadata) { _, error in
             if let error = error {
                 completion(.failure(error))
             } else {

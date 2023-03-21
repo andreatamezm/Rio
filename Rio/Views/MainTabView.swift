@@ -10,13 +10,18 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var calendarManager: CalendarManager
     @EnvironmentObject var authManager: AuthenticationManager
-    @EnvironmentObject var imageData: ImageData
+    @EnvironmentObject var postData: PostData
     
     var body: some View {
         TabView {
             CalendarView()
                 .tabItem {
                     Label("Calendar", systemImage: "calendar")
+                }
+            
+            FeedView()
+                .tabItem {
+                    Label("Feed", systemImage: "photo")
                 }
             
             SettingsView()

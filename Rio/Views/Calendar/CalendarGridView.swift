@@ -14,7 +14,7 @@ struct CalendarGridView: View {
     @ObservedObject var calendarManager: CalendarManager
     let rowHeight: CGFloat
     let showImagePicker: (Int) -> Void
-    @EnvironmentObject var imageData: ImageData
+    @EnvironmentObject var postData: PostData
 
     var body: some View {
         VStack(alignment: .center, spacing: 5) {

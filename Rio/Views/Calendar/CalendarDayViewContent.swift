@@ -15,7 +15,7 @@ struct CalendarDayViewContent: View {
     let isCurrentDay: Bool
     let monthOfSelectedDay: Int
     let yearOfSelectedDay: Int
-    @EnvironmentObject var imageData: ImageData
+    @EnvironmentObject var postData: PostData
 
     var body: some View {
         GeometryReader { geometry in
@@ -28,7 +28,7 @@ struct CalendarDayViewContent: View {
                 
                 let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
 
-                if let image = imageData.imagesForDays[key] {
+                if let image = postData.imagesForDays[key] {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()

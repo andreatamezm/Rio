@@ -12,7 +12,7 @@ import FirebaseAuth
 
 struct CalendarView: View {
     @EnvironmentObject var calendarManager: CalendarManager
-    @EnvironmentObject var imageData: ImageData
+    @EnvironmentObject var postData: PostData
     @State private var currentSelectedDay: String?
     @State private var showingImagePicker = false
     @State private var captionInputData: CaptionInputData?
@@ -31,12 +31,12 @@ struct CalendarView: View {
     private func fetchData() {
         if let userId = Auth.auth().currentUser?.uid {
             calendarManager.currentDate = Date()
-            imageData.currentUserId = userId
-            imageData.listenToPostsForUser(userId: userId) { (result: Result<[String: PostModel], Error>) in
+            postData.currentUserId = userId
+            postData.listenToPostsForUser(userId: userId) { (result: Result<[String: PostModel], Error>) in
                 switch result {
                 case .success(let posts):
                     
-                    imageData.fetchImagesForUser(posts: posts) { result in
+                    postData.fetchImagesForUser(posts: posts) { result in
                         switch result {
                         case .success:
                             print("Images fetched successfully.")
@@ -55,17 +55,17 @@ struct CalendarView: View {
     // Provides the content for the image picker sheet
     private func imagePickerSheet() -> some View {
         ImagePicker(selectedImage: Binding(get: {
-            currentSelectedDay.flatMap { imageData.imagesForDays[$0] }
+            currentSelectedDay.flatMap { postData.imagesForDays[$0] }
         }, set: { newValue in
             if let selectedDay = currentSelectedDay, let image = newValue {
-                imageData.updateImageForDay(day: selectedDay, image: image)
+                postData.updateImageForDay(day: selectedDay, image: image)
             }
         }), sourceType: .photoLibrary)
     }
     
     // Processes the selected image when the image picker is dismissed
     private func processSelectedImage() {
-        if let selectedDay = currentSelectedDay, let image = imageData.imagesForDays[selectedDay] {
+        if let selectedDay = currentSelectedDay, let image = postData.imagesForDays[selectedDay] {
             print("Image selected for day \(selectedDay): \(image)")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -108,7 +108,7 @@ struct CalendarView: View {
                         .padding(10)
                     
                     CalendarGridView(calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
-                        .environmentObject(imageData)
+                        .environmentObject(postData)
                         .padding(10)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -120,8 +120,8 @@ struct CalendarView: View {
         .sheet(isPresented: $showingImagePicker, onDismiss: processSelectedImage, content: imagePickerSheet)
         .sheet(item: $captionInputData) { data in
             CaptionInputView(caption: Binding(get: { data.caption }, set: { newValue in data.caption = newValue }), selectedImage: data.selectedImage, onSave: {
-                if let userId = imageData.currentUserId, let date = data.date {
-                    imageData.createPost(image: data.selectedImage, caption: data.caption, date: date) { result in
+                if let userId = postData.currentUserId, let date = data.date {
+                    postData.createPost(image: data.selectedImage, caption: data.caption, date: date) { result in
                         switch result {
                         case .success:
                             print("Post created successfully.")
@@ -131,7 +131,7 @@ struct CalendarView: View {
                     }
                 }
             })
-            .environmentObject(imageData)
+            .environmentObject(postData)
         }
 
 

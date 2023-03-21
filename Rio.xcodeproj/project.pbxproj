@@ -47,13 +47,15 @@
 		49C08CC129C8325200F2B5D2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC029C8325200F2B5D2 /* MainTabView.swift */; };
 		49C08CC329C8326400F2B5D2 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC229C8326400F2B5D2 /* CalendarView.swift */; };
 		49C08CC529C8327F00F2B5D2 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC429C8327F00F2B5D2 /* UserModel.swift */; };
-		49C08CC729C8328C00F2B5D2 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC629C8328C00F2B5D2 /* ImageData.swift */; };
+		49C08CC729C8328C00F2B5D2 /* PostData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC629C8328C00F2B5D2 /* PostData.swift */; };
 		49C08CC929C832A200F2B5D2 /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */; };
 		49C08CCB29C832B700F2B5D2 /* CalendarWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */; };
 		49C08CCD29C832C800F2B5D2 /* CalendarGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */; };
 		49C08CCF29C832D900F2B5D2 /* DaysOfWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */; };
 		49F005A729C9874000CE0A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49F005A629C9874000CE0A38 /* GoogleService-Info.plist */; };
 		49F005AA29C988AA00CE0A38 /* CaptionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F005A929C988AA00CE0A38 /* CaptionInputView.swift */; };
+		49F005AC29CA505500CE0A38 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F005AB29CA505500CE0A38 /* FeedView.swift */; };
+		49F005AE29CA543500CE0A38 /* AddFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F005AD29CA543500CE0A38 /* AddFriendsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,13 +99,15 @@
 		49C08CC029C8325200F2B5D2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		49C08CC229C8326400F2B5D2 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		49C08CC429C8327F00F2B5D2 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		49C08CC629C8328C00F2B5D2 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		49C08CC629C8328C00F2B5D2 /* PostData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostData.swift; sourceTree = "<group>"; };
 		49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekView.swift; sourceTree = "<group>"; };
 		49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarGridView.swift; sourceTree = "<group>"; };
 		49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysOfWeekView.swift; sourceTree = "<group>"; };
 		49F005A629C9874000CE0A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		49F005A929C988AA00CE0A38 /* CaptionInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionInputView.swift; sourceTree = "<group>"; };
+		49F005AB29CA505500CE0A38 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		49F005AD29CA543500CE0A38 /* AddFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,8 @@
 				49C08CBC29C8320E00F2B5D2 /* SettingsView.swift */,
 				49C08CBA29C831F900F2B5D2 /* LoginView.swift */,
 				49C08CC029C8325200F2B5D2 /* MainTabView.swift */,
+				49F005AB29CA505500CE0A38 /* FeedView.swift */,
+				49F005AD29CA543500CE0A38 /* AddFriendsView.swift */,
 				4921B69429C929420021B0E7 /* ImageViewer.swift */,
 				49F005A929C988AA00CE0A38 /* CaptionInputView.swift */,
 			);
@@ -172,7 +178,7 @@
 				49C08C8D29C8315E00F2B5D2 /* AuthenticationManager.swift */,
 				49C08CB829C831C100F2B5D2 /* CalendarManager.swift */,
 				49C08CBE29C8322E00F2B5D2 /* ImagePicker.swift */,
-				49C08CC629C8328C00F2B5D2 /* ImageData.swift */,
+				49C08CC629C8328C00F2B5D2 /* PostData.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -426,14 +432,16 @@
 				49C08C8E29C8315E00F2B5D2 /* AuthenticationManager.swift in Sources */,
 				49C08CB929C831C100F2B5D2 /* CalendarManager.swift in Sources */,
 				49C08C6629C830F900F2B5D2 /* ContentView.swift in Sources */,
+				49F005AE29CA543500CE0A38 /* AddFriendsView.swift in Sources */,
 				49C08CC929C832A200F2B5D2 /* CalendarDayView.swift in Sources */,
 				49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */,
 				49C08CC129C8325200F2B5D2 /* MainTabView.swift in Sources */,
+				49F005AC29CA505500CE0A38 /* FeedView.swift in Sources */,
 				49C08CBF29C8322E00F2B5D2 /* ImagePicker.swift in Sources */,
 				49C08CC329C8326400F2B5D2 /* CalendarView.swift in Sources */,
 				49C08CCF29C832D900F2B5D2 /* DaysOfWeekView.swift in Sources */,
 				49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */,
-				49C08CC729C8328C00F2B5D2 /* ImageData.swift in Sources */,
+				49C08CC729C8328C00F2B5D2 /* PostData.swift in Sources */,
 				49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */,
 				49C08CBD29C8320E00F2B5D2 /* SettingsView.swift in Sources */,
 				4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */,
