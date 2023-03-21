@@ -4,7 +4,6 @@
 //
 //  Created by Andrea Tamez on 3/19/23.
 //
-
 import SwiftUI
 import FirebaseAuth
 
@@ -30,14 +29,13 @@ struct CalendarDayView: View {
         let isCurrentDay = currentDay == dayIndex && currentMonth == monthOfSelectedDay && currentYear == yearOfSelectedDay
         
         Button(action: {
-            if isCurrentDay {
-                let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
-                if imageData.imagesForDays[key] == nil {
-                    showChangeImagePicker.toggle()
-                } else {
-                    showOpenImageView.toggle()
-                }
+            let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
+            if imageData.imagesForDays[key] == nil && isCurrentDay {
+                showImagePicker(dayIndex)
+            } else if imageData.imagesForDays[key] != nil {
+                showOpenImageView = true
             }
+            
         }, label: {
             CalendarDayViewContent(dayIndex: dayIndex, isCurrentDay: isCurrentDay, monthOfSelectedDay: monthOfSelectedDay, yearOfSelectedDay: yearOfSelectedDay) // Pass the current user's ID
                 .environmentObject(imageData)
@@ -60,5 +58,14 @@ struct CalendarDayView: View {
                 showChangeImagePicker = false
             }
         }
+        .sheet(isPresented: $showOpenImageView) {
+            if let imageKey = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex),
+               let image = imageData.imagesForDays[imageKey] {
+                ImageViewer(image: image)
+            } else {
+                EmptyView()
+            }
+        }
+
     }
 }

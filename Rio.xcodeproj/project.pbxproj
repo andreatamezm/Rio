@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921B69429C929420021B0E7 /* ImageViewer.swift */; };
 		49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49828FC829C8408F001EA987 /* AppDelegate.swift */; };
 		49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869BFE29C8FC390022DD05 /* PostModel.swift */; };
 		49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */; };
@@ -72,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4921B69429C929420021B0E7 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
 		49828FC829C8408F001EA987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49869BFE29C8FC390022DD05 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayViewContent.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */,
 				49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */,
 				49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */,
+				4921B69429C929420021B0E7 /* ImageViewer.swift */,
 				49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */,
 			);
 			path = Views;
@@ -422,6 +425,7 @@
 				49C08CC729C8328C00F2B5D2 /* ImageData.swift in Sources */,
 				49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */,
 				49C08CBD29C8320E00F2B5D2 /* SettingsView.swift in Sources */,
+				4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */,
 				49C08CBB29C831F900F2B5D2 /* LoginView.swift in Sources */,
 				49C08CCB29C832B700F2B5D2 /* CalendarWeekView.swift in Sources */,
 				49C08CC529C8327F00F2B5D2 /* UserModel.swift in Sources */,
