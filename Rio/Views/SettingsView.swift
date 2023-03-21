@@ -11,37 +11,22 @@ import FirebaseAuth
 // SettingsView displays the current user's username and provides a log out button.
 struct SettingsView: View {
     @EnvironmentObject var authManager: AuthenticationManager
+    
 
     var body: some View {
         NavigationView {
             VStack {
-                // Display current user's username
-                if let user = authManager.userModel {
-                    UsernameView(user: user)
-                }
-
                 // Add other settings content here, if needed
 
                 Spacer()
 
                 LogoutButton(action: authManager.signOut)
-
-                Spacer()
             }
-            .navigationBarTitle("Settings")
+            .navigationBarTitle(Text("Hello, \(authManager.userModel?.username ?? "")"))
         }
     }
 }
 
-struct UsernameView: View {
-    let user: UserModel
-
-    var body: some View {
-        Text("Username: \(user.username)")
-            .font(.headline)
-            .padding()
-    }
-}
 
 struct LogoutButton: View {
     let action: () -> Void
@@ -52,7 +37,7 @@ struct LogoutButton: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.blue)
+                .background(Color("ButtonGreen"))
                 .cornerRadius(10)
         }
         .padding()
@@ -72,3 +57,12 @@ struct ButtonStyleModifier: ViewModifier {
     }
 }
 
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        var authManager = AuthenticationManager()
+        
+        SettingsView()
+            .environmentObject(authManager)
+
+    }
+}

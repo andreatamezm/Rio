@@ -52,7 +52,8 @@
 		49C08CCB29C832B700F2B5D2 /* CalendarWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */; };
 		49C08CCD29C832C800F2B5D2 /* CalendarGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */; };
 		49C08CCF29C832D900F2B5D2 /* DaysOfWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */; };
-		49C08CD129C8341100F2B5D2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49C08CD029C8341100F2B5D2 /* GoogleService-Info.plist */; };
+		49F005A729C9874000CE0A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 49F005A629C9874000CE0A38 /* GoogleService-Info.plist */; };
+		49F005AA29C988AA00CE0A38 /* CaptionInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F005A929C988AA00CE0A38 /* CaptionInputView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,7 +102,8 @@
 		49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekView.swift; sourceTree = "<group>"; };
 		49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarGridView.swift; sourceTree = "<group>"; };
 		49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysOfWeekView.swift; sourceTree = "<group>"; };
-		49C08CD029C8341100F2B5D2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		49F005A629C9874000CE0A38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		49F005A929C988AA00CE0A38 /* CaptionInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionInputView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,17 +154,13 @@
 		49828FCA29C84173001EA987 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				49F005A829C9888A00CE0A38 /* Calendar */,
 				49C08C6529C830F900F2B5D2 /* ContentView.swift */,
 				49C08CBC29C8320E00F2B5D2 /* SettingsView.swift */,
 				49C08CBA29C831F900F2B5D2 /* LoginView.swift */,
 				49C08CC029C8325200F2B5D2 /* MainTabView.swift */,
-				49C08CC229C8326400F2B5D2 /* CalendarView.swift */,
-				49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */,
-				49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */,
-				49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */,
-				49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */,
 				4921B69429C929420021B0E7 /* ImageViewer.swift */,
-				49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */,
+				49F005A929C988AA00CE0A38 /* CaptionInputView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -219,8 +217,8 @@
 		49C08C6229C830F900F2B5D2 /* Rio */ = {
 			isa = PBXGroup;
 			children = (
-				49C08CD029C8341100F2B5D2 /* GoogleService-Info.plist */,
 				49C08C6329C830F900F2B5D2 /* RioApp.swift */,
+				49F005A629C9874000CE0A38 /* GoogleService-Info.plist */,
 				49869C0529C902090022DD05 /* Style */,
 				49869C0229C8FFC90022DD05 /* Models */,
 				49828FCB29C8417C001EA987 /* Backend */,
@@ -254,6 +252,19 @@
 				49C08C8029C830FB00F2B5D2 /* RioUITestsLaunchTests.swift */,
 			);
 			path = RioUITests;
+			sourceTree = "<group>";
+		};
+		49F005A829C9888A00CE0A38 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				49C08CC229C8326400F2B5D2 /* CalendarView.swift */,
+				49C08CCC29C832C800F2B5D2 /* CalendarGridView.swift */,
+				49C08CCE29C832D900F2B5D2 /* DaysOfWeekView.swift */,
+				49C08CCA29C832B700F2B5D2 /* CalendarWeekView.swift */,
+				49C08CC829C832A200F2B5D2 /* CalendarDayView.swift */,
+				49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */,
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,7 +398,7 @@
 			files = (
 				49C08C6B29C830FB00F2B5D2 /* Preview Assets.xcassets in Resources */,
 				49C08C6829C830FB00F2B5D2 /* Assets.xcassets in Resources */,
-				49C08CD129C8341100F2B5D2 /* GoogleService-Info.plist in Resources */,
+				49F005A729C9874000CE0A38 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +438,7 @@
 				49C08CBD29C8320E00F2B5D2 /* SettingsView.swift in Sources */,
 				4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */,
 				49C08CBB29C831F900F2B5D2 /* LoginView.swift in Sources */,
+				49F005AA29C988AA00CE0A38 /* CaptionInputView.swift in Sources */,
 				49C08CCB29C832B700F2B5D2 /* CalendarWeekView.swift in Sources */,
 				49C08CC529C8327F00F2B5D2 /* UserModel.swift in Sources */,
 				49869C0429C9015B0022DD05 /* Color+Extensions.swift in Sources */,

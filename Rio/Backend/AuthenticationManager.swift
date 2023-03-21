@@ -28,7 +28,7 @@ class AuthenticationManager: ObservableObject {
                     case .success(let userModel):
                         DispatchQueue.main.async {
                             self.userModel = userModel
-                            self.imageData.updateImagesForDays(posts: Array(userModel.posts.values))
+                            self.imageData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
                         }
                     }
                 }
@@ -65,7 +65,7 @@ class AuthenticationManager: ObservableObject {
                             case .success(let userModel):
                                 DispatchQueue.main.async {
                                     self.userModel = userModel
-                                    self.imageData.updateImagesForDays(posts: Array(userModel.posts.values))
+                                    self.imageData.updateImagesAndCaptionsForDays(posts: Array(userModel.posts.values))
                                 }
                             }
                             completion(.success(user))

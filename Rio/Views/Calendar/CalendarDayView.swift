@@ -46,7 +46,7 @@ struct CalendarDayView: View {
             ImagePicker(selectedImage: .constant(nil), sourceType: .photoLibrary) { image in
                 if let image = image {
                     let currentDate = Calendar.current.date(from: DateComponents(year: yearOfSelectedDay, month: monthOfSelectedDay, day: dayIndex))!
-                    imageData.createPost(image: image, date: currentDate) { result in
+                    imageData.createPost(image: image, caption: "", date: currentDate) { result in
                         switch result {
                         case .success:
                             print("Post created successfully")
@@ -61,11 +61,22 @@ struct CalendarDayView: View {
         .sheet(isPresented: $showOpenImageView) {
             if let imageKey = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex),
                let image = imageData.imagesForDays[imageKey] {
-                ImageViewer(image: image)
+                let caption = imageData.captionsForDays[imageKey] ?? "No caption"
+            
+                
+                ImageViewer(image: image, caption: caption)
+                    .onAppear(){
+                        print("Image key: \(imageKey)") // Print the image key
+                        print("Captions for days: \(imageData.captionsForDays)") // Print the captionsForDays dictionary
+                        print("Caption for day \(dayIndex): \(caption)") // Print the fetched caption
+                        
+                    }
             } else {
                 EmptyView()
             }
         }
+
+        
 
     }
 }

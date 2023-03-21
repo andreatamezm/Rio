@@ -23,7 +23,9 @@ struct MainTabView: View {
                 .environmentObject(authManager)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
+                    
                 }
-        }
+        }.accentColor(Color("ButtonGreen"))
     }
 }
+

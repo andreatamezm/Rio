@@ -5,6 +5,8 @@
 //  Created by Andrea Tamez on 3/19/23.
 //
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 import FirebaseAuth
 
 
@@ -13,13 +15,14 @@ struct CalendarView: View {
     @EnvironmentObject var imageData: ImageData
     @State private var currentSelectedDay: String?
     @State private var showingImagePicker = false
+    @State private var captionInputData: CaptionInputData?
     private let rowHeight: CGFloat = 100
-
+    
     func showImagePicker(for day: Int) {
         let year = Calendar.current.component(.year, from: calendarManager.currentDate)
         let month = Calendar.current.component(.month, from: calendarManager.currentDate)
         let key = String(format: "%04d-%02d-%02d", year, month, day)
-
+        
         currentSelectedDay = key
         showingImagePicker = true
     }
@@ -32,6 +35,7 @@ struct CalendarView: View {
             imageData.listenToPostsForUser(userId: userId) { (result: Result<[String: PostModel], Error>) in
                 switch result {
                 case .success(let posts):
+                    
                     imageData.fetchImagesForUser(posts: posts) { result in
                         switch result {
                         case .success:
@@ -46,7 +50,7 @@ struct CalendarView: View {
             }
         }
     }
-
+    
     
     // Provides the content for the image picker sheet
     private func imagePickerSheet() -> some View {
@@ -66,18 +70,13 @@ struct CalendarView: View {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             if let date = dateFormatter.date(from: selectedDay) {
-                imageData.createPost(image: image, date: date) { result in
-                    switch result {
-                    case .success:
-                        print("Post created successfully.")
-                    case .failure(let error):
-                        print("Error creating post: \(error.localizedDescription)")
-                    }
-                }
+                // Show the caption input view
+                captionInputData = CaptionInputData(selectedImage: image, caption: "", date: date)
             }
         }
     }
 
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -93,14 +92,14 @@ struct CalendarView: View {
                         Text(calendarManager.monthAndYear)
                             .font(.system(size: 22, weight: .bold))
                             .frame(maxWidth: .infinity, alignment: .center)
-
+                        
                         Button(action: {
                             calendarManager.moveToNextMonth()
                         }, label: {
                             Image(systemName: "chevron.right")
                                 .font(.title)
                                 .frame(maxWidth: 20, alignment: .trailing)
-
+                            
                         })
                     }
                     .padding(20)
@@ -119,5 +118,24 @@ struct CalendarView: View {
             }
         }
         .sheet(isPresented: $showingImagePicker, onDismiss: processSelectedImage, content: imagePickerSheet)
+        .sheet(item: $captionInputData) { data in
+            CaptionInputView(caption: Binding(get: { data.caption }, set: { newValue in data.caption = newValue }), selectedImage: data.selectedImage, onSave: {
+                if let userId = imageData.currentUserId, let date = data.date {
+                    imageData.createPost(image: data.selectedImage, caption: data.caption, date: date) { result in
+                        switch result {
+                        case .success:
+                            print("Post created successfully.")
+                        case .failure(let error):
+                            print("Error creating post: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            })
+            .environmentObject(imageData)
+        }
+
+
+
+
     }
 }

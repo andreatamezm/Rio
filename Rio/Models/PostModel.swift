@@ -12,13 +12,15 @@ struct PostModel: Identifiable, Codable {
     let id: String
     let imageURL: String
     let date: Date
+    var caption: String?
     
 
     func asDictionary() -> [String: Any] {
         return [
             "id": id,
             "imageURL": imageURL,
-            "date": Timestamp(date: date)
+            "date": Timestamp(date: date),
+            "caption": caption
         ]
     }
 }
