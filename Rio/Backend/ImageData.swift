@@ -143,6 +143,28 @@ class ImageData: ObservableObject {
             }
         }
     }
+    
+    func listenToPostsForUser(userId: String, completion: @escaping (Result<[String: PostModel], Error>) -> Void) {
+        db.collection("users").document(userId).addSnapshotListener { documentSnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = documentSnapshot, document.exists {
+                do {
+                    if let data = document.data() {
+                        let userModel = try Firestore.Decoder().decode(UserModel.self, from: data)
+                        completion(.success(userModel.posts))
+                    } else {
+                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse user model"])))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            } else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "User document not found"])))
+            }
+        }
+    }
+
 
 
     // MARK: - Private Methods

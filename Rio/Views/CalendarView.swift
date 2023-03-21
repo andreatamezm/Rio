@@ -30,7 +30,7 @@ struct CalendarView: View {
         if let userId = Auth.auth().currentUser?.uid {
             calendarManager.currentDate = Date()
             imageData.currentUserId = userId
-            imageData.fetchPostsForUser(userId: userId) { (result: Result<[String: PostModel], Error>) in
+            imageData.listenToPostsForUser(userId: userId) { (result: Result<[String: PostModel], Error>) in
                 switch result {
                 case .success(let posts):
                     imageData.fetchImagesForUser(posts: posts) { result in
@@ -47,6 +47,7 @@ struct CalendarView: View {
             }
         }
     }
+
     
     // Provides the content for the image picker sheet
     private func imagePickerSheet() -> some View {
