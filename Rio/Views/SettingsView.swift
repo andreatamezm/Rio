@@ -41,18 +41,5 @@ struct LogoutButton: View {
                 .cornerRadius(10)
         }
         .padding()
-        .buttonStyleModifier()
-    }
-}
-
-extension View {
-    func buttonStyleModifier() -> some View {
-        self.modifier(ButtonStyleModifier())
-    }
-}
-
-struct ButtonStyleModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
     }
 }

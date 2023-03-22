@@ -15,8 +15,10 @@ struct CalendarDayViewContent: View {
     let isCurrentDay: Bool
     let monthOfSelectedDay: Int
     let yearOfSelectedDay: Int
+    let rowHeight: CGFloat
     @EnvironmentObject var postData: PostData
 
+    
     var body: some View {
         GeometryReader { geometry in
             let frameWidth = geometry.size.width
@@ -24,7 +26,9 @@ struct CalendarDayViewContent: View {
             
             ZStack {
                 Rectangle()
-                    .fill(isCurrentDay ? Color(hex: "CBE0EA") : Color(hex: "CBE0EA").opacity(0.5))
+                    .fill(isCurrentDay ? Color("CalendarDayFill_Current") : Color("CalendarDayFill"))
+                    .border(isCurrentDay ? Color("AccentColor") : Color("CalendarDayStroke"), width: 2)
+                    .cornerRadius(5)
                 
                 let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
 
@@ -35,16 +39,25 @@ struct CalendarDayViewContent: View {
                                 .frame(width: frameWidth, height: frameHeight)
                                 .clipped()
                         }
+                VStack {
+                    Spacer()
+                    Text("\(dayIndex)")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(isCurrentDay ? Color("CalendarDayText_Current") : Color("CalendarDayText"))
+                        .frame(
+                            maxWidth: .infinity,
+                            maxHeight: .infinity,
+                            alignment: .bottomLeading)
+                        .padding(2)
+                }
                 
-                Rectangle()
-                    .stroke(Color.gray, lineWidth: 1)
-                
-                Text("\(dayIndex)")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(.gray)
+                .frame(maxWidth: frameWidth)
                     
             }
-            .frame(width: frameWidth, height: frameHeight)
+            
+            .frame(maxWidth: .infinity, maxHeight: rowHeight)
+            .padding(3)
+            
         }
     }
 }

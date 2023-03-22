@@ -80,38 +80,56 @@ struct CalendarView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                VStack(alignment: .center, spacing: 0.0) {
-                    HStack {
-                        Button(action: {
-                            calendarManager.moveToPreviousMonth()
-                        }, label: {
-                            Image(systemName: "chevron.left")
-                                .font(.title)
-                                .frame(maxWidth: 20, alignment: .leading)
-                        })
-                        Text(calendarManager.monthAndYear)
-                            .font(.system(size: 22, weight: .bold))
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        
-                        Button(action: {
-                            calendarManager.moveToNextMonth()
-                        }, label: {
-                            Image(systemName: "chevron.right")
-                                .font(.title)
-                                .frame(maxWidth: 20, alignment: .trailing)
+                Image("MainAppBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                GeometryReader { geo in
+                    VStack(alignment: .center, spacing: 0.0) {
+                        HStack {
+                            Button(action: {
+                                calendarManager.moveToPreviousMonth()
+                            }, label: {
+                                Image(systemName: "chevron.left")
+                                    .font(.title)
+                                    .frame(maxWidth: 18, alignment: .leading)
+                                    .padding(10)
+                                    .foregroundColor(Color("Arrows"))
+                            })
                             
-                        })
+                            Text(calendarManager.monthAndYear)
+                                .font(.system(size: 20, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .foregroundColor(Color("AccentColor"))
+                            
+                            Button(action: {
+                                calendarManager.moveToNextMonth()
+                            }, label: {
+                                Image(systemName: "chevron.right")
+                                    .font(.title)
+                                    .frame(maxWidth: 18, alignment: .trailing)
+                                    .padding(10)
+                                    .foregroundColor(Color("Arrows"))
+                                
+                            })
+                        }
+                        .background(Color("MonthYearNavTab"))
+                        .cornerRadius(10)
+                        .padding(.top, 85)
+                        .padding([.leading, .trailing, .bottom], 15)
+                        
+                        DaysOfWeekView()
+                            .padding(2)
+                        
+                        CalendarGridView(calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
+                            .environmentObject(postData)
+                            .padding(5)
+                        
+                        
                     }
-                    .padding(20)
+                    .frame(width: geo.size.width, height: geo.size.height)
                     
-                    DaysOfWeekView()
-                        .padding(10)
-                    
-                    CalendarGridView(calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
-                        .environmentObject(postData)
-                        .padding(10)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
             .onAppear {
                 fetchData()

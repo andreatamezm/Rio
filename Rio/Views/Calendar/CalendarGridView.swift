@@ -17,7 +17,7 @@ struct CalendarGridView: View {
     @EnvironmentObject var postData: PostData
 
     var body: some View {
-        VStack(alignment: .center, spacing: 5) {
+        VStack(alignment: .center, spacing: 2) {
             ForEach(0..<6, id: \.self) { weekIndex in
                 CalendarWeekView(week: weekIndex, calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
             }

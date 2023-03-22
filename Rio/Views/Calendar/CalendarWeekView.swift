@@ -17,7 +17,7 @@ struct CalendarWeekView: View {
     let showImagePicker: (Int) -> Void
 
     var body: some View {
-        HStack {
+        HStack(alignment: .center, spacing: -1) {
             ForEach(0..<7, id: \.self) { day in
                 dayContent(day)
             }

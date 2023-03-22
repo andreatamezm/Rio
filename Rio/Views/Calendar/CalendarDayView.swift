@@ -37,7 +37,7 @@ struct CalendarDayView: View {
             }
             
         }, label: {
-            CalendarDayViewContent(dayIndex: dayIndex, isCurrentDay: isCurrentDay, monthOfSelectedDay: monthOfSelectedDay, yearOfSelectedDay: yearOfSelectedDay) // Pass the current user's ID
+            CalendarDayViewContent(dayIndex: dayIndex, isCurrentDay: isCurrentDay, monthOfSelectedDay: monthOfSelectedDay, yearOfSelectedDay: yearOfSelectedDay, rowHeight: rowHeight) // Pass the current user's ID
                 .environmentObject(postData)
         })
         .frame(maxWidth: .infinity, maxHeight: rowHeight)

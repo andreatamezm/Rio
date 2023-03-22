@@ -18,49 +18,55 @@ struct FeedView: View {
 
     
     var body: some View {
-        if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
             VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.isShowingAddFriends = true
-                    }) {
-                        Image(systemName: "person.badge.plus")
-                            .font(.title)
-                            .foregroundColor(Color("ButtonGreen"))
-                            .imageScale(.medium)
-                    }
-                    .padding(.trailing, 20)
-                    .sheet(isPresented: $isShowingAddFriends) {
-                        AddFriendsView()
-                            .environmentObject(authManager)
-                            .environmentObject(friendsList)
-                    }
-                }
-                ScrollView {
-                    VStack(spacing: 0) {
-                        Image(uiImage: postData.imagesForDays[postData.dateFormatter.string(from: Date())]!)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: UIScreen.main.bounds.width)
-                        
-                        HStack {
-                            Text(postData.captionsForDays[postData.dateFormatter.string(from: Date())] ?? "")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .padding()
-                            
-                            Spacer()
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            self.isShowingAddFriends = true
+                        }) {
+                            Image(systemName: "person.badge.plus")
+                                .font(.title)
+                                .foregroundColor(Color("ButtonGreen"))
+                                .imageScale(.medium)
+                        }
+                        .padding(.trailing, 20)
+                        .sheet(isPresented: $isShowingAddFriends) {
+                            AddFriendsView()
+                                .environmentObject(authManager)
+                                .environmentObject(friendsList)
                         }
                     }
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .padding(.horizontal)
-                    .shadow(radius: 5)
+                    
+                    Spacer()
                 }
-                .padding(.top, 20)
-                Spacer()
-            }
+                
+                if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
+                    
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            Image(uiImage: postData.imagesForDays[postData.dateFormatter.string(from: Date())]!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: UIScreen.main.bounds.width)
+                            
+                            HStack {
+                                Text(postData.captionsForDays[postData.dateFormatter.string(from: Date())] ?? "")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                    .padding()
+                                
+                                Spacer()
+                            }
+                        }
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        .shadow(radius: 5)
+                    }
+                    .padding(.top, 20)
+                    Spacer()
+                }
         }
     }
 }

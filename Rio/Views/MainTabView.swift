@@ -18,22 +18,59 @@ struct MainTabView: View {
         TabView {
             CalendarView()
                 .tabItem {
-                    Label("Calendar", systemImage: "calendar")
+                    
+                    VStack {
+                        Image("memories") // Use your custom image
+                            .renderingMode(.template)
+                        Text("Memories")
+                    }
+                    
                 }
             
             FeedView()
                 .environmentObject(friendsList)
                 .tabItem {
-                    Label("Feed", systemImage: "photo")
+                    
+                    VStack {
+                        Image("feed") // Use your custom image
+                            .renderingMode(.template)
+                        Text("Feed")
+                    }
                 }
             
             SettingsView()
                 .environmentObject(authManager)
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
                     
+                    VStack {
+                        Image("line") // Use your custom image
+                            .renderingMode(.template)
+                        Text("Menu")
+                    }
                 }
-        }.accentColor(Color("ButtonGreen"))
+        }
+        .tabBarBackground(Color("NavBarFill")) // Add this line
+        .selectedTabColor(Color("AccentColor")) // Add this line
+        
     }
 }
 
+
+extension View {
+    func tabBarBackground(_ color: Color) -> some View {
+        return self.onAppear {
+            let uiColor = UIColor(color)
+            UITabBar.appearance().barTintColor = uiColor
+            UITabBar.appearance().backgroundColor = uiColor
+            UITabBar.appearance().isTranslucent = false
+        }
+    }
+    
+    func selectedTabColor(_ color: Color) -> some View {
+        return self.onAppear {
+            let uiColor = UIColor(color)
+            UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: uiColor], for: .selected)
+            UITabBar.appearance().tintColor = uiColor
+        }
+    }
+}
