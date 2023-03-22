@@ -11,6 +11,8 @@ struct MainTabView: View {
     @EnvironmentObject var calendarManager: CalendarManager
     @EnvironmentObject var authManager: AuthenticationManager
     @EnvironmentObject var postData: PostData
+    @EnvironmentObject var friendsList: FriendsList
+
     
     var body: some View {
         TabView {
@@ -20,6 +22,7 @@ struct MainTabView: View {
                 }
             
             FeedView()
+                .environmentObject(friendsList)
                 .tabItem {
                     Label("Feed", systemImage: "photo")
                 }

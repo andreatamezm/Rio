@@ -56,13 +56,3 @@ struct ButtonStyleModifier: ViewModifier {
         content
     }
 }
-
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        var authManager = AuthenticationManager()
-        
-        SettingsView()
-            .environmentObject(authManager)
-
-    }
-}

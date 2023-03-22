@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4921B69429C929420021B0E7 /* ImageViewer.swift */; };
+		4932036029CAC8F200A4BD0B /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4932035F29CAC8F200A4BD0B /* FriendModel.swift */; };
+		4932036229CAC95A00A4BD0B /* FriendsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4932036129CAC95A00A4BD0B /* FriendsList.swift */; };
 		49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49828FC829C8408F001EA987 /* AppDelegate.swift */; };
 		49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869BFE29C8FC390022DD05 /* PostModel.swift */; };
 		49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */; };
@@ -77,6 +79,8 @@
 
 /* Begin PBXFileReference section */
 		4921B69429C929420021B0E7 /* ImageViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewer.swift; sourceTree = "<group>"; };
+		4932035F29CAC8F200A4BD0B /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
+		4932036129CAC95A00A4BD0B /* FriendsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsList.swift; sourceTree = "<group>"; };
 		49828FC829C8408F001EA987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49869BFE29C8FC390022DD05 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		49869C0029C8FD540022DD05 /* CalendarDayViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayViewContent.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 				49C08CB829C831C100F2B5D2 /* CalendarManager.swift */,
 				49C08CBE29C8322E00F2B5D2 /* ImagePicker.swift */,
 				49C08CC629C8328C00F2B5D2 /* PostData.swift */,
+				4932036129CAC95A00A4BD0B /* FriendsList.swift */,
 			);
 			path = Backend;
 			sourceTree = "<group>";
@@ -187,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				49C08CC429C8327F00F2B5D2 /* UserModel.swift */,
+				4932035F29CAC8F200A4BD0B /* FriendModel.swift */,
 				49869BFE29C8FC390022DD05 /* PostModel.swift */,
 			);
 			path = Models;
@@ -435,6 +441,7 @@
 				49F005AE29CA543500CE0A38 /* AddFriendsView.swift in Sources */,
 				49C08CC929C832A200F2B5D2 /* CalendarDayView.swift in Sources */,
 				49869BFF29C8FC390022DD05 /* PostModel.swift in Sources */,
+				4932036229CAC95A00A4BD0B /* FriendsList.swift in Sources */,
 				49C08CC129C8325200F2B5D2 /* MainTabView.swift in Sources */,
 				49F005AC29CA505500CE0A38 /* FeedView.swift in Sources */,
 				49C08CBF29C8322E00F2B5D2 /* ImagePicker.swift in Sources */,
@@ -442,6 +449,7 @@
 				49C08CCF29C832D900F2B5D2 /* DaysOfWeekView.swift in Sources */,
 				49828FC929C8408F001EA987 /* AppDelegate.swift in Sources */,
 				49C08CC729C8328C00F2B5D2 /* PostData.swift in Sources */,
+				4932036029CAC8F200A4BD0B /* FriendModel.swift in Sources */,
 				49869C0129C8FD540022DD05 /* CalendarDayViewContent.swift in Sources */,
 				49C08CBD29C8320E00F2B5D2 /* SettingsView.swift in Sources */,
 				4921B69529C929420021B0E7 /* ImageViewer.swift in Sources */,

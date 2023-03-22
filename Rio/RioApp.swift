@@ -11,12 +11,15 @@ import SwiftUI
 struct RioApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authManager = AuthenticationManager()
+    @StateObject private var friendsList = FriendsList()
+
 
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 ContentView()
                     .environmentObject(authManager)
+                    .environmentObject(friendsList)
                 Spacer()
             }
         }

@@ -12,6 +12,8 @@ struct ContentView: View {
     @StateObject private var calendarManager = CalendarManager()
     @StateObject private var authManager = AuthenticationManager()
     @StateObject private var postData = PostData()
+    @EnvironmentObject var friendsList: FriendsList
+
 
     var body: some View {
         NavigationView {
@@ -20,9 +22,11 @@ struct ContentView: View {
                     .environmentObject(calendarManager)
                     .environmentObject(authManager)
                     .environmentObject(postData)
+                    .environmentObject(friendsList)
             } else {
                 LoginView()
                     .environmentObject(authManager)
+                    
             }
         }
         .onAppear {

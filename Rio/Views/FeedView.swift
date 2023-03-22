@@ -12,6 +12,10 @@ struct FeedView: View {
     @EnvironmentObject var postData: PostData
     var currentDate = Date()
     @State private var isShowingAddFriends = false
+    @EnvironmentObject var authManager: AuthenticationManager
+    @EnvironmentObject var friendsList: FriendsList
+
+
     
     var body: some View {
         if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
@@ -29,6 +33,8 @@ struct FeedView: View {
                     .padding(.trailing, 20)
                     .sheet(isPresented: $isShowingAddFriends) {
                         AddFriendsView()
+                            .environmentObject(authManager)
+                            .environmentObject(friendsList)
                     }
                 }
                 ScrollView {
