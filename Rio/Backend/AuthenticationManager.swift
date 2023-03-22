@@ -58,7 +58,18 @@ class AuthenticationManager: ObservableObject {
                     case .failure(let error):
                         completion(.failure(error))
                     case .success:
-                        completion(.success(user))
+                        self.fetchUserData(userId: user.uid) { fetchUserResult in
+                            switch fetchUserResult {
+                            case .failure(let error):
+                                print("Error fetching user data: \(error)")
+                            case .success(let userModel):
+                                DispatchQueue.main.async {
+                                    self.userModel = userModel
+                                    self.imageData.updateImagesForDays(posts: Array(userModel.posts.values))
+                                }
+                            }
+                            completion(.success(user))
+                        }
                     }
                 }
             }
