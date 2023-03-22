@@ -181,7 +181,8 @@ class FriendsList: ObservableObject {
                     var fetchError: Error?
                     
                     querySnapshot?.documents.forEach { document in
-                        if let friendModel = try? document.data(as: FriendModel.self) {
+                        if let friendModel = try? document.data(as: FriendModel.self),
+                           friendModel.user1ID == userId || friendModel.user2ID == userId {
                             let friendId = friendModel.user1ID == userId ? friendModel.user2ID : friendModel.user1ID
                             
                             dispatchGroup.enter()
@@ -203,6 +204,69 @@ class FriendsList: ObservableObject {
                         } else {
                             completion(.success(friends))
                         }
+                    }
+                }
+            }
+    }
+
+    
+    func fetchUsersToAdd(userId: String, completion: @escaping (Result<[UserModel], Error>) -> Void) {
+        db.collection("users").getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                let dispatchGroup = DispatchGroup()
+                var usersToAdd: [UserModel] = []
+                var fetchError: Error?
+                
+                querySnapshot?.documents.forEach { document in
+                    if let userModel = try? document.data(as: UserModel.self), userModel.id != userId {
+                        dispatchGroup.enter()
+                        self.fetchFriends(for: userId) { result in
+                            switch result {
+                            case .success(let friends):
+                                if !friends.contains(where: { $0.id == userModel.id }) {
+                                    usersToAdd.append(userModel)
+                                }
+                            case .failure(let error):
+                                fetchError = error
+                            }
+                            dispatchGroup.leave()
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    if let error = fetchError {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(usersToAdd))
+                    }
+                }
+            }
+        }
+    }
+
+    func removeFriendshipBetween(user1ID: String, user2ID: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        db.collection("friends")
+            .whereField("user1ID", in: [user1ID, user2ID])
+            .whereField("user2ID", in: [user1ID, user2ID])
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    let document = querySnapshot?.documents.first
+                    
+                    if let document = document {
+                        document.reference.delete() { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            } else {
+                                completion(.success(()))
+                            }
+                        }
+                    } else {
+                        completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Friendship document not found"])))
                     }
                 }
             }
