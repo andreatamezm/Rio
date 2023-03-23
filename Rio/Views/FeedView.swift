@@ -19,6 +19,8 @@ struct FeedView: View {
     
     var body: some View {
             VStack {
+                
+                // Button
                 VStack {
                     HStack {
                         Spacer()
@@ -37,12 +39,11 @@ struct FeedView: View {
                                 .environmentObject(friendsList)
                         }
                     }
-                    
-                    Spacer()
                 }
                 
+                // Posts
+                
                 if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
-                    
                     ScrollView {
                         VStack(spacing: 0) {
                             Image(uiImage: postData.imagesForDays[postData.dateFormatter.string(from: Date())]!)

@@ -31,24 +31,50 @@ struct CalendarDayViewContent: View {
                     .cornerRadius(5)
                 
                 let key = String(format: "%04d-%02d-%02d", yearOfSelectedDay, monthOfSelectedDay, dayIndex)
+                
+                Image(isCurrentDay ? "currentDay" : "notCurrentDay")
 
                 if let image = postData.imagesForDays[key] {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: frameWidth, height: frameHeight)
-                                .clipped()
-                        }
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.clear)
+                            .border(isCurrentDay ? Color("AccentColor") : Color("CalendarDayStroke"), width: 2)
+                            .cornerRadius(5)
+                        
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: frameWidth - 9, height: frameHeight - 9)
+                            .cornerRadius(3)
+                            .clipped()
+                    }
+
+                    
+                }
+                
+                
                 VStack {
                     Spacer()
-                    Text("\(dayIndex)")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(isCurrentDay ? Color("CalendarDayText_Current") : Color("CalendarDayText"))
-                        .frame(
-                            maxWidth: .infinity,
-                            maxHeight: .infinity,
-                            alignment: .bottomLeading)
-                        .padding(2)
+                    HStack {
+                        ZStack(alignment: .center) {
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(isCurrentDay ? Color("CalendarDayTextBackground") : Color("CalendarDayTextBackground_Current"))
+                                .frame(
+                                    width: 20,
+                                    height: 20,
+                                    alignment: .bottomLeading)
+                            
+                            
+                            Text("\(dayIndex)")
+                                .font(.custom("Helvetica", size: 14))
+                                .fontWeight(.regular)
+                                .foregroundColor(isCurrentDay ? Color("CalendarDayText_Current") : Color("CalendarDayText"))
+                        }
+                        Spacer()
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0))
+
+                    
                 }
                 
                 .frame(maxWidth: frameWidth)
