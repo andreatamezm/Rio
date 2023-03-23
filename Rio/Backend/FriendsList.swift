@@ -272,6 +272,46 @@ class FriendsList: ObservableObject {
             }
     }
     
-    
+    func fetchFriendsPostsForCurrentDay(userId: String, postData: PostData, completion: @escaping (Result<[(postId: String, username: String, image: UIImage, caption: String?)], Error>) -> Void) {
+        fetchFriends(for: userId) { [weak self] result in
+            switch result {
+            case .success(let friends):
+                print("Fetched friends: \(friends)")
+                var fetchedPosts: [String: (username: String, image: UIImage, caption: String?)] = [:]
+                let group = DispatchGroup()
+                
+                for friend in friends {
+                    for post in friend.posts.values {
+                        if Calendar.current.isDate(post.date, inSameDayAs: Date()) {
+                            group.enter()
+                            postData.loadImage(from: post.imageURL) { image in
+                                if let image = image {
+                                    print("Loaded image: \(post.imageURL)")
+                                    fetchedPosts[post.id] = (username: friend.username, image: image, caption: post.caption)
+                                } else {
+                                    print("Error loading image")
+                                }
+                                group.leave()
+                            }
+                        }
+                    }
+                }
+                
+                group.notify(queue: .main) {
+                    DispatchQueue.main.async {
+                        let fetchedPostsArray = fetchedPosts.map { (postId: $0.key, username: $0.value.username, image: $0.value.image, caption: $0.value.caption) }
+                        print("Fetched friends' posts: \(fetchedPostsArray)")
+                        completion(.success(fetchedPostsArray))
+                    }
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+
+
 
 }

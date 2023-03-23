@@ -65,12 +65,6 @@ struct CalendarDayView: View {
             
                 
                 ImageViewer(image: image, caption: caption)
-                    .onAppear(){
-                        print("Image key: \(imageKey)") // Print the image key
-                        print("Captions for days: \(postData.captionsForDays)") // Print the captionsForDays dictionary
-                        print("Caption for day \(dayIndex): \(caption)") // Print the fetched caption
-                        
-                    }
             } else {
                 EmptyView()
             }

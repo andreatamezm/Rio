@@ -226,29 +226,30 @@ class PostData: ObservableObject {
     }
 
     
-    private func loadImage(from url: String, completion: @escaping (UIImage?) -> Void) {
-            guard let imageURL = URL(string: url) else {
-                print("Invalid image URL")
+    func loadImage(from url: String, completion: @escaping (UIImage?) -> Void) {
+        guard let imageURL = URL(string: url) else {
+            print("Invalid image URL")
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: imageURL) { data, response, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
 
-            URLSession.shared.dataTask(with: imageURL) { data, response, error in
-                if let error = error {
-                    print("Error downloading image: \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
+            guard let data = data, let image = UIImage(data: data) else {
+                print("Unable to convert data to image")
+                completion(nil)
+                return
+            }
 
-                guard let data = data, let image = UIImage(data: data) else {
-                    print("Unable to convert data to image")
-                    completion(nil)
-                    return
-                }
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        }.resume()
+    }
 
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            }.resume()
-        }
 }

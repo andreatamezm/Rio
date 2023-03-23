@@ -134,6 +134,8 @@ struct CalendarView: View {
             .onAppear {
                 fetchData()
             }
+            .animation(.default) // Add this line
+
         }
         .sheet(isPresented: $showingImagePicker, onDismiss: processSelectedImage, content: imagePickerSheet)
         .sheet(item: $captionInputData) { data in
