@@ -14,16 +14,23 @@ struct SettingsView: View {
     
 
     var body: some View {
+        
         NavigationView {
-            VStack {
-                // Add other settings content here, if needed
-
-                Spacer()
-
-                LogoutButton(action: authManager.signOut)
+            ZStack {
+                Image("MainAppBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                    // Add other settings content here, if needed
+                    
+                    
+                    LogoutButton(action: authManager.signOut)
+                }
+                .navigationBarTitle(Text("Hello, \(authManager.userModel?.username ?? "")"))
             }
-            .navigationBarTitle(Text("Hello, \(authManager.userModel?.username ?? "")"))
         }
+        
     }
 }
 
@@ -43,3 +50,14 @@ struct LogoutButton: View {
         .padding()
     }
 }
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        var authManager = AuthenticationManager()
+
+        SettingsView()
+            .environmentObject(authManager)
+
+    }
+}
+

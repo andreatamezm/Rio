@@ -45,7 +45,7 @@ struct MainTabView: View {
                     VStack {
                         Image("line") // Use your custom image
                             .renderingMode(.template)
-                        Text("Menu")
+                        Text("Settings")
                     }
                 }
         }
@@ -72,5 +72,22 @@ extension View {
             UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: uiColor], for: .selected)
             UITabBar.appearance().tintColor = uiColor
         }
+    }
+}
+
+
+struct MainTabView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+       var calendarManager = CalendarManager()
+         var authManager = AuthenticationManager()
+         var postData = PostData()
+         var friendsList = FriendsList()
+        
+        MainTabView()
+            .environmentObject(calendarManager)
+            .environmentObject(authManager)
+            .environmentObject(postData)
+            .environmentObject(friendsList)
     }
 }
