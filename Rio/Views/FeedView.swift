@@ -33,29 +33,47 @@ struct FeedView: View {
     private func friendsPostsView() -> some View {
         VStack(spacing: 60) {
             ForEach(friendsPosts, id: \.postId) { post in
-                    VStack(spacing: 0) {
+                
+                    
+                
+                
+                VStack(spacing: 0) {
+                    
+                    ZStack {
                         Image(uiImage: post.image)
                             .resizable()
                             .clipped()
                             .scaledToFill()
-                            .frame(width: UIScreen.main.bounds.width / 1.5, height: (UIScreen.main.bounds.width / 1.5) * 16 / 9)
+                            .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
                         
-                        HStack {
-                            Text(post.caption ?? "")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .padding()
-                            Text(post.username)
-                                .font(.headline)
-                                .foregroundColor(.secondary)
+                        VStack {
+                            HStack {
+                                Text(post.username)
+                                    .padding(5)
+                                    .font(.system(size: 18, weight: .bold))
+                                    .foregroundColor(Color("AccentColor"))
+                                    .background(Color("CaptionBackground"))
+                                    .cornerRadius(10)
+                                    .padding([.top, .leading], 10)
+                                
+                                Spacer()
+                            }
                             
                             Spacer()
+                            
+                            Text(post.caption ?? "")
+                                .padding(5)
+                                .font(.system(size: 18, weight: .medium))
+                                .background(Color("CaptionBackground"))
+                                .cornerRadius(10)
+                                .foregroundColor(Color("CaptionText"))
+                                .padding(.bottom, 10)
                         }
+                       
                     }
-                    .background(Color.white)
+                }
                     .cornerRadius(12)
-                    .frame(width: UIScreen.main.bounds.width / 1.3, height: (UIScreen.main.bounds.width / 1.3) * 16 / 9)
-
+                    .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
                 }
             }
 
@@ -63,68 +81,91 @@ struct FeedView: View {
 
 
     var body: some View {
-        VStack {
-            // Button
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        self.isShowingAddFriends = true
-                    }) {
-                        Image(systemName: "person.badge.plus")
-                            .font(.title)
-                            .foregroundColor(Color("ButtonGreen"))
-                            .imageScale(.medium)
-                    }
-                    .padding(.trailing, 20)
-                    .sheet(isPresented: $isShowingAddFriends) {
-                        AddFriendsView()
-                            .environmentObject(authManager)
-                            .environmentObject(friendsList)
-                    }
-                }
-            }
-            
-            // Posts
-            ScrollView {
-                VStack(spacing: 40) {
-                    if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
-                        VStack(spacing: 0) {
-                            Image(uiImage: postData.imagesForDays[postData.dateFormatter.string(from: Date())]!)
-                                .resizable()
-                                .clipped()
-                                .scaledToFill()
-                                .frame(width: UIScreen.main.bounds.width / 1.5, height: (UIScreen.main.bounds.width / 1.5) * 16 / 9)
-                            
-                            HStack {
-                                Text(postData.captionsForDays[postData.dateFormatter.string(from: Date())] ?? "")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .padding()
-                                
-                                Spacer()
+        NavigationView {
+            ZStack {
+                Image("MainAppBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                VStack {
+                    // Button
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                self.isShowingAddFriends = true
+                            }) {
+                                Image(systemName: "person.badge.plus")
+                                    .font(.title)
+                                    .foregroundColor(Color("AccentColor"))
+                                    .imageScale(.medium)
+                            }
+                            .padding(.trailing, 20)
+                            .sheet(isPresented: $isShowingAddFriends) {
+                                AddFriendsView()
+                                    .environmentObject(authManager)
+                                    .environmentObject(friendsList)
                             }
                         }
-                        .background(Color.white)
-                        .cornerRadius(12)
-                        .frame(width: UIScreen.main.bounds.width / 1.3, height: (UIScreen.main.bounds.width / 1.3) * 16 / 9)
                     }
                     
-                    friendsPostsView()
+                    // Posts
+                    ScrollView {
+                        VStack(spacing: 40) {
+                            if let image = postData.imagesForDays[postData.dateFormatter.string(from: Date())] {
+                                
+                                VStack(spacing: 0) {
+                                    ZStack {
+                                        
+                                        Image(uiImage: postData.imagesForDays[postData.dateFormatter.string(from: Date())]!)
+                                            .resizable()
+                                            .clipped()
+                                            .scaledToFill()
+                                            .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
+                                        
+                                        VStack {
+                                            
+                                            Spacer()
+                                            
+                                            Text(postData.captionsForDays[postData.dateFormatter.string(from: Date())] ?? "")
+                                                .padding(5)
+                                                .font(.system(size: 18, weight: .medium))
+                                                .background(Color("CaptionBackground"))
+                                                .cornerRadius(10)
+                                                .foregroundColor(Color("CaptionText"))
+                                                .padding(.bottom, 10)
+                                        }
+                                        
+                                        
+                                    }
+                                    .cornerRadius(12)
+                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
+                                }
+                            }
+                            
+                            friendsPostsView()
+                        }
+                        
+                        
+                    }
+                    
+                    .id(refreshId) // Update this line
                 }
-            }
-            .id(refreshId) // Update this line
-        }
-        .onAppear {
-            if let userId = authManager.user?.uid {
-                friendsList.fetchFriendsPostsForCurrentDay(userId: userId, postData: postData) { result in
-                    switch result {
-                    case .success(let fetchedFriendsPosts):
-                        friendsPosts = fetchedFriendsPosts
-                        refreshId = UUID() // Add this line
-                        print("Fetched friends' posts: \(fetchedFriendsPosts)") // Debugging
-                    case .failure(let error):
-                        print("Error fetching friends' posts: \(error)")
+                .padding(.top, 120)
+                .padding(.bottom, 40)
+                
+                .onAppear {
+                    if let userId = authManager.user?.uid {
+                        friendsList.fetchFriendsPostsForCurrentDay(userId: userId, postData: postData) { result in
+                            switch result {
+                            case .success(let fetchedFriendsPosts):
+                                friendsPosts = fetchedFriendsPosts
+                                refreshId = UUID() // Add this line
+                                print("Fetched friends' posts: \(fetchedFriendsPosts)") // Debugging
+                            case .failure(let error):
+                                print("Error fetching friends' posts: \(error)")
+                            }
+                        }
                     }
                 }
             }

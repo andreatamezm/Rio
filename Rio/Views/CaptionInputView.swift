@@ -14,33 +14,56 @@ struct CaptionInputView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            Image(uiImage: selectedImage)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-            TextField("Enter a caption", text: $caption)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding(.horizontal)
-                .padding(.top)
-            
-            Button(action: {
-                onSave()
-                presentationMode.wrappedValue.dismiss() 
-                print("Post was created successfully") // Add this line
-            }, label: {
-                Text("Save")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-            })
+        GeometryReader { geometry in
+        NavigationView {
+                ZStack {
+                    Image("MainAppBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+
+                    VStack {
+                        ZStack {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: (geometry.size.width * 9 / 16) + 120, height: geometry.size.width + 120)
+                                .clipped()
+                                .cornerRadius(10)
+
+                            VStack {
+                                Spacer()
+                                TextField("Enter a caption", text: $caption)
+                                    .padding(5)
+                                    .background(Color("CaptionBackground"))
+                                    .foregroundColor(Color("CaptionText"))
+                                    .cornerRadius(10)
+                                    .padding(.bottom, 40)
+                                    .frame(width: geometry.size.width * 9 / 16 + 60)
+                            }
+                        }
+                        .padding(.top, 100)
+
+                        
+                        Button(action: {
+                            onSave()
+                            presentationMode.wrappedValue.dismiss()
+                            print("Post was created successfully")
+                        }, label: {
+                            Text("Save")
+                                .padding()
+                                .frame(width: (geometry.size.width * 9 / 16) + 120)
+                                .background(Color("AccentColor"))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .padding(.bottom, 140)
+                        })
+                    }
+                }
+            }
         }
     }
+    
 }
 
 class CaptionInputData: ObservableObject, Identifiable {

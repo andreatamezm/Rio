@@ -18,110 +18,182 @@ struct AddFriendsView: View {
     @State private var incomingFriendRequestsWithUser: [(FriendModel, UserModel)] = []
     @State private var sentFriendRequests: [String] = []
     @State private var friends: [UserModel] = [] // Add this line
+    @State private var searchText: String = ""
+    
+    var filteredUsers: [UserModel] {
+        if searchText.isEmpty {
+            return allUsers
+        } else {
+            return allUsers.filter { user in
+                user.username.lowercased().contains(searchText.lowercased())
+            }
+        }
+    }
+
     
     var friendRequests: [(FriendModel, UserModel)] {
         incomingFriendRequestsWithUser.filter { $0.0.isRequested && !$0.0.isAccepted }
     }
     
     var body: some View {
-        VStack {
-            Text("Add Friends")
-                .font(.largeTitle)
-                .bold()
+        GeometryReader { geometry in
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Friend Requests")
-                        .font(.title)
-                        .bold()
+            NavigationView {
+                ZStack {
+                    Image("MainAppBackground")
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
                     
-                    ForEach(friendRequests, id: \.0.id) { (request, user) in
-                        HStack {
-                            Text(user.username)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                acceptFriendRequest(request: request)
-                            }) {
-                                Text("Accept")
-                            }
-                            
-                            Button(action: {
-                                rejectFriendRequest(request: request)
-                            }) {
-                                Text("Reject")
-                            }
-                        }
-                    }
                     
-                    Text("All Users")
-                        .font(.title)
-                        .bold()
+                    VStack {
+                                            Text("Add Friends")
+                                                .font(.largeTitle)
+                                                .bold()
+                        
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 10) {
+                                
+                                
+                                if !friendRequests.isEmpty {
+                                    
+                                    Text("Friend Requests")
+                                        .font(.title)
+                                        .bold()
+                                        .foregroundColor(Color("AccentColor"))
+                                    
+                                    
+                                    VStack {
+                                        ForEach(friendRequests, id: \.0.id) { (request, user) in
+                                            HStack {
+                                                Text(user.username)
+                                                    .padding(2)
+                                                    .foregroundColor(Color("CaptionText"))
 
-                    ForEach(allUsers, id: \.id) { user in
-                        if !incomingFriendRequestsWithUser.contains(where: { $0.1.id == user.id }) &&
-                            !friends.contains(where: { $0.id == user.id }) &&
-                           (authManager.userModel?.id != user.id) {
-                            HStack {
-                                Text(user.username)
-
-                                Spacer()
-
-                                if sentFriendRequests.contains(user.id) {
-                                    Button(action: {
-                                        removeFriendship(with: user)
-                                        if let index = sentFriendRequests.firstIndex(of: user.id) {
-                                            sentFriendRequests.remove(at: index)
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    acceptFriendRequest(request: request)
+                                                }) {
+                                                    Text("Accept")
+                                                }
+                                                
+                                                Button(action: {
+                                                    rejectFriendRequest(request: request)
+                                                }) {
+                                                    Text("Reject")
+                                                }
+                                            }
                                         }
-                                    }) {
-                                        Text("Requested")
                                     }
-                                } else {
-                                    Button(action: {
-                                        sendFriendRequest(to: user)
-                                        sentFriendRequests.append(user.id)
-                                    }) {
-                                        Text("Add")
+                                    .padding(5)
+                                    .background(Color("CaptionBackground"))
+                                    .cornerRadius(10)
+
+                                }
+                                
+                                if !friends.isEmpty {
+                                    
+                                    Text("Friends")
+                                        .font(.title)
+                                        .bold()
+                                        .foregroundColor(Color("AccentColor"))
+                                    
+                                    
+                                    VStack {
+                                        ForEach(friends, id: \.id) { friend in
+                                            HStack {
+                                                Text(friend.username)
+                                                    .padding(2)
+                                                    .foregroundColor(Color("CaptionText"))
+                                                
+                                                Spacer()
+                                                
+                                                Button(action: {
+                                                    removeFriendship(with: friend)
+                                                }) {
+                                                    Text("Delete")
+                                                }
+                                            }
+                                        }
+                                    
+                                }
+                                .padding(5)
+                                .background(Color("CaptionBackground"))
+                                .cornerRadius(10)
+                                }
+                                
+                                
+                                
+                                Text("All Users")
+                                    .font(.title)
+                                    .bold()
+                                    .foregroundColor(Color("AccentColor"))
+                                
+                                TextField("Search users", text: $searchText)
+                                    .padding(5)
+                                    .background(Color("SearchBackground"))
+                                    .foregroundColor(Color("CaptionBackground"))
+                                    .cornerRadius(10)
+                                
+                                VStack {
+                                    ForEach(filteredUsers, id: \.id) { user in
+                                        if !incomingFriendRequestsWithUser.contains(where: { $0.1.id == user.id }) &&
+                                            !friends.contains(where: { $0.id == user.id }) &&
+                                            (authManager.userModel?.id != user.id) {
+                                            HStack {
+                                                Text(user.username)
+                                                    .padding(2)
+                                                    .foregroundColor(Color("CaptionText"))
+                                                
+                                                Spacer()
+                                                
+                                                if sentFriendRequests.contains(user.id) {
+                                                    Button(action: {
+                                                        removeFriendship(with: user)
+                                                        if let index = sentFriendRequests.firstIndex(of: user.id) {
+                                                            sentFriendRequests.remove(at: index)
+                                                        }
+                                                    }) {
+                                                        Text("Requested")
+                                                    }
+                                                } else {
+                                                    Button(action: {
+                                                        sendFriendRequest(to: user)
+                                                        sentFriendRequests.append(user.id)
+                                                    }) {
+                                                        Text("Add")
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                            
+                            .padding(5)
+                            .background(Color("CaptionBackground"))
+                            .cornerRadius(10)
+                                
+                                
+                                
+                                
                             }
                         }
+                        .padding()
                     }
-
-
-                    
-                    Text("Friends")
-                        .font(.title)
-                        .bold()
-
-                    ForEach(friends, id: \.id) { friend in
-                        HStack {
-                            Text(friend.username)
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                removeFriendship(with: friend)
-                            }) {
-                                Text("Delete")
-                            }
-                        }
+                    .onAppear {
+                        fetchAllUsers()
+                        fetchIncomingFriendRequests()
+                        fetchSentFriendRequests()
+                        fetchFriends()
+                        
                     }
-
-
                 }
             }
-            .padding()
-        }
-        .onAppear {
-            fetchAllUsers()
-            fetchIncomingFriendRequests()
-            fetchSentFriendRequests()
-            fetchFriends()
-
         }
     }
+    
     
     private func fetchAllUsers() {
         let db = Firestore.firestore()

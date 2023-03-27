@@ -11,7 +11,7 @@ import FirebaseAuth
 
 
 struct CalendarView: View {
-    @EnvironmentObject var calendarManager: CalendarManager
+    @EnvironmentObject var calendarManager:CalendarManager
     @EnvironmentObject var postData: PostData
     @State private var currentSelectedDay: String?
     @State private var showingImagePicker = false

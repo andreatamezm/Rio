@@ -16,10 +16,14 @@ struct LoginView: View {
     @State private var isSignUp = false
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var isLoading = false
+
     
     // Sign in an existing user
     private func signIn() {
+        isLoading = true
         authManager.signIn(email: email, password: password) { result in
+            isLoading = false
             switch result {
             case .failure(let error):
                 alertMessage = error.localizedDescription
@@ -32,7 +36,9 @@ struct LoginView: View {
 
     // Sign up a new user
     private func signUp() {
+        isLoading = true
         authManager.signUp(email: email, password: password,  username: username) { (result: Result<User, Error>) in
+            isLoading = false
             switch result {
             case .failure(let error):
                 alertMessage = error.localizedDescription
@@ -83,81 +89,89 @@ struct LoginView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            
-            VStack(spacing: -UIScreen.main.bounds.height/30) {
-                // Image on the top half
-                ZStack {
-                    Image("LogInBackground")
-                        .resizable()
-                        .ignoresSafeArea(edges: .top)
-                    
-                    VStack {
-                        Image("logo")
+            ZStack {
+                VStack(spacing: -UIScreen.main.bounds.height/30) {
+                    // Image on the top half
+                    ZStack {
+                        Image("LogInBackground")
                             .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 190)
-                            .padding(.top, 40)
-                    }
-                }
-                
-                // White background with Text Boxes and Buttons on the bottom half
-                ZStack() {
-                    VStack(spacing: 20) {
-                        Spacer()
-                        TextField("Email", text: $email)
-                            .modifier(TextFieldStyle())
+                            .ignoresSafeArea(edges: .top)
                         
-                        SecureField("Password", text: $password)
-                            .modifier(TextFieldStyle())
-                        
-                        // Only ask for username when signing up
-                        if isSignUp {
-                            TextField("Username", text: $username)
-                                .modifier(TextFieldStyle())
+                        VStack {
+                            Image("logo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 190)
+                                .padding(.top, 40)
                         }
-                        
-                        
-                        // SignUp / LogIn button
-                        Button(action: {
-                            if isSignUp {
-                                if passwordIsStrong(password) {
-                                    signUp()
-                                } else {
-                                    alertMessage = "Password is not strong enough."
-                                    showAlert = true
-                                }
-                            } else {
-                                signIn()
-                            }
-                        }, label: {
-                            Text(isSignUp ? "Sign Up" : "Log In")
-                                .foregroundColor(Color.white)
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(Color("ButtonGreen"))
-                                .cornerRadius(15)
-                        })
-                        
-                        // Change from LogIn to SignUp
-                        Button(action: {
-                            isSignUp.toggle()
-                        }, label: {
-                            Text(isSignUp ? "Have an account? Log In" : "Don't have an account? Sign Up")
-                                .foregroundColor(Color("ButtonGreen"))
-                        })
-                        Spacer()
                     }
-                    .padding()
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
-                    }
-                    .background(Color.white) // set background color
-                    .cornerRadius(30)
                     
+                    // White background with Text Boxes and Buttons on the bottom half
+                    ZStack() {
+                        VStack(spacing: 20) {
+                            Spacer()
+                            TextField("Email", text: $email)
+                                .modifier(TextFieldStyle())
+                            
+                            SecureField("Password", text: $password)
+                                .modifier(TextFieldStyle())
+                            
+                            // Only ask for username when signing up
+                            if isSignUp {
+                                TextField("Username", text: $username)
+                                    .modifier(TextFieldStyle())
+                            }
+                            
+                            
+                            // SignUp / LogIn button
+                            Button(action: {
+                                if isSignUp {
+                                    if passwordIsStrong(password) {
+                                        signUp()
+                                    } else {
+                                        alertMessage = "Password is not strong enough."
+                                        showAlert = true
+                                    }
+                                } else {
+                                    signIn()
+                                }
+                            }, label: {
+                                Text(isSignUp ? "Sign Up" : "Log In")
+                                    .foregroundColor(Color.white)
+                                    .frame(maxWidth: .infinity, minHeight: 50)
+                                    .background(Color("ButtonGreen"))
+                                    .cornerRadius(15)
+                            })
+                            
+                            // Change from LogIn to SignUp
+                            Button(action: {
+                                isSignUp.toggle()
+                            }, label: {
+                                Text(isSignUp ? "Have an account? Log In" : "Don't have an account? Sign Up")
+                                    .foregroundColor(Color("ButtonGreen"))
+                            })
+                            Spacer()
+                        }
+                        .padding()
+                        .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                        }
+                        .background(Color.white) // set background color
+                        .cornerRadius(30)
+                        
+                        
+                    }
+                    .frame(height: geometry.size.height/2)
                     
                 }
-                .frame(height: geometry.size.height/2)
-
             }
+            
+            if isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(Color.black.opacity(0.45))
+                                .edgesIgnoringSafeArea(.all)
+                        }
         }
     }
 }
