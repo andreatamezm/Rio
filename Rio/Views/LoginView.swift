@@ -70,6 +70,7 @@ struct LoginView: View {
     struct TextFieldStyle: ViewModifier {
         func body(content: Content) -> some View {
             content
+                .foregroundColor(Color("CalendarDayTextBackground_Current"))
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10)
