@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "LogInBackground 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "LogInBackground 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
