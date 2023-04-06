@@ -13,47 +13,37 @@ struct MainTabView: View {
     @EnvironmentObject var postData: PostData
     @EnvironmentObject var friendsList: FriendsList
 
-    
     var body: some View {
-        TabView {
-            CalendarView()
-                .tabItem {
-                    
-                    VStack {
-                        Image("memories") // Use your custom image
-                            .renderingMode(.template)
-                        Text("Memories")
+        HStack {
+            TabView {
+                CalendarView()
+                    .tabItem {
+                        Label("Memories", systemImage: "calendar")
                     }
-                    
-                }
+                
+                FeedView()
+                    .environmentObject(friendsList)
+                    .tabItem {
+                        Label("Feed", systemImage: "photo")
+                        
+                    }
+                
+                SettingsView()
+                    .environmentObject(authManager)
+                    .tabItem {
+                        Label("More", systemImage: "ellipsis")
+                        
+                    }
+            }
+            .tabBarBackground(Color("NavBarFill"))
+            .selectedTabColor(Color("AccentColor"))
             
-            FeedView()
-                .environmentObject(friendsList)
-                .tabItem {
-                    
-                    VStack {
-                        Image("feed") // Use your custom image
-                            .renderingMode(.template)
-                        Text("Feed")
-                    }
-                }
-            
-            SettingsView()
-                .environmentObject(authManager)
-                .tabItem {
-                    
-                    VStack {
-                        Image("line") // Use your custom image
-                            .renderingMode(.template)
-                        Text("Settings")
-                    }
-                }
         }
-        .tabBarBackground(Color("NavBarFill")) // Add this line
-        .selectedTabColor(Color("AccentColor")) // Add this line
-        
+        .background(Color(.blue))
     }
 }
+
+
 
 
 extension View {
@@ -72,22 +62,5 @@ extension View {
             UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: uiColor], for: .selected)
             UITabBar.appearance().tintColor = uiColor
         }
-    }
-}
-
-
-struct MainTabView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-       var calendarManager = CalendarManager()
-         var authManager = AuthenticationManager()
-         var postData = PostData()
-         var friendsList = FriendsList()
-        
-        MainTabView()
-            .environmentObject(calendarManager)
-            .environmentObject(authManager)
-            .environmentObject(postData)
-            .environmentObject(friendsList)
     }
 }

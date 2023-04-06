@@ -75,7 +75,7 @@ struct CalendarView: View {
             }
         }
     }
-
+    
     
     var body: some View {
         NavigationView {
@@ -98,7 +98,7 @@ struct CalendarView: View {
                             })
                             
                             Text(calendarManager.monthAndYear)
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.system(size: geo.size.width * 0.05, weight: .bold))
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .foregroundColor(Color("AccentColor"))
                             
@@ -115,13 +115,13 @@ struct CalendarView: View {
                         }
                         .background(Color("MonthYearNavTab"))
                         .cornerRadius(10)
-                        .padding(.top, 85)
-                        .padding([.leading, .trailing, .bottom], 15)
+                        .padding(.top, geo.size.height * 0.1)
+                        .padding([.leading, .trailing, .bottom], geo.size.width * 0.03)
                         
                         DaysOfWeekView()
                             .padding(2)
                         
-                        CalendarGridView(calendarManager: calendarManager, rowHeight: rowHeight, showImagePicker: showImagePicker)
+                        CalendarGridView(calendarManager: calendarManager, rowHeight: geo.size.height * 0.1, showImagePicker: showImagePicker)
                             .environmentObject(postData)
                             .padding(5)
                         
@@ -134,8 +134,7 @@ struct CalendarView: View {
             .onAppear {
                 fetchData()
             }
-            .animation(.default) // Add this line
-
+            .animation(.default)
         }
         .sheet(isPresented: $showingImagePicker, onDismiss: processSelectedImage, content: imagePickerSheet)
         .sheet(item: $captionInputData) { data in
@@ -153,9 +152,6 @@ struct CalendarView: View {
             })
             .environmentObject(postData)
         }
-
-
-
-
     }
+    
 }

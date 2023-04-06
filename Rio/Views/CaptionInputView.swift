@@ -15,7 +15,7 @@ struct CaptionInputView: View {
 
     var body: some View {
         GeometryReader { geometry in
-        NavigationView {
+            NavigationView {
                 ZStack {
                     Image("MainAppBackground")
                         .resizable()
@@ -27,7 +27,7 @@ struct CaptionInputView: View {
                             Image(uiImage: selectedImage)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: (geometry.size.width * 9 / 16) + 120, height: geometry.size.width + 120)
+                                .frame(width: geometry.size.width * 0.8, height: geometry.size.width * 0.8 * 16 / 9)
                                 .clipped()
                                 .cornerRadius(10)
 
@@ -39,12 +39,11 @@ struct CaptionInputView: View {
                                     .foregroundColor(Color("CaptionText"))
                                     .cornerRadius(10)
                                     .padding(.bottom, 40)
-                                    .frame(width: geometry.size.width * 9 / 16 + 60)
+                                    .frame(width: geometry.size.width * 0.8 * 0.75)
                             }
                         }
-                        .padding(.top, 100)
+                        .padding(.top, geometry.size.height * 0.1)
 
-                        
                         Button(action: {
                             onSave()
                             presentationMode.wrappedValue.dismiss()
@@ -52,18 +51,17 @@ struct CaptionInputView: View {
                         }, label: {
                             Text("Save")
                                 .padding()
-                                .frame(width: (geometry.size.width * 9 / 16) + 120)
+                                .frame(width: geometry.size.width * 0.8)
                                 .background(Color("AccentColor"))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
-                                .padding(.bottom, 140)
+                                .padding(.bottom, geometry.size.height * 0.2)
                         })
                     }
                 }
             }
         }
     }
-    
 }
 
 class CaptionInputData: ObservableObject, Identifiable {
@@ -71,7 +69,7 @@ class CaptionInputData: ObservableObject, Identifiable {
     let selectedImage: UIImage
     @Published var caption: String
     let date: Date?
-    
+
     init(selectedImage: UIImage, caption: String, date: Date) {
         self.caption = caption
         self.selectedImage = selectedImage

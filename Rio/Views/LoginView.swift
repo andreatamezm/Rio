@@ -83,14 +83,14 @@ struct LoginView: View {
                 )
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-                .padding(.bottom, 20)
+                .padding(.bottom, 10)
         }
     }
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                VStack(spacing: -UIScreen.main.bounds.height/30) {
+                VStack(spacing: -geometry.size.height / 30) {
                     // Image on the top half
                     ZStack {
                         Image("LogInBackground")
@@ -101,14 +101,14 @@ struct LoginView: View {
                             Image("logo")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(height: 190)
-                                .padding(.top, 40)
+                                .frame(height: geometry.size.height * 0.25)
+                                .padding(.top, geometry.size.height * 0.05)
                         }
                     }
                     
                     // White background with Text Boxes and Buttons on the bottom half
                     ZStack() {
-                        VStack(spacing: 20) {
+                        VStack(spacing: 10) {
                             Spacer()
                             TextField("Email", text: $email)
                                 .modifier(TextFieldStyle())
@@ -138,7 +138,7 @@ struct LoginView: View {
                             }, label: {
                                 Text(isSignUp ? "Sign Up" : "Log In")
                                     .foregroundColor(Color.white)
-                                    .frame(maxWidth: .infinity, minHeight: 50)
+                                    .frame(maxWidth: .infinity, minHeight: geometry.size.height * 0.07)
                                     .background(Color("ButtonGreen"))
                                     .cornerRadius(15)
                             })
@@ -161,19 +161,20 @@ struct LoginView: View {
                         
                         
                     }
-                    .frame(height: geometry.size.height/2)
+                    .frame(height: geometry.size.height / 2)
                     
                 }
             }
             
             if isLoading {
-                            ProgressView()
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .background(Color.black.opacity(0.45))
-                                .edgesIgnoringSafeArea(.all)
-                        }
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.45))
+                    .edgesIgnoringSafeArea(.all)
+            }
         }
     }
+
 }
 
 struct LoginView_Previews: PreviewProvider {

@@ -121,8 +121,8 @@ struct FeedView: View {
                                             .resizable()
                                             .clipped()
                                             .scaledToFill()
-                                            .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
-                                        
+                                            .frame(width: UIScreen.main.bounds.width / 1.1, height: ((UIScreen.main.bounds.width / 1.1) * 16 / 9) - 30)
+
                                         VStack {
                                             
                                             Spacer()
@@ -139,8 +139,9 @@ struct FeedView: View {
                                         
                                     }
                                     .cornerRadius(12)
-                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: (UIScreen.main.bounds.width / 1.1) * 16 / 9)
+                                    .frame(width: UIScreen.main.bounds.width / 1.1, height: ((UIScreen.main.bounds.width / 1.1) * 16 / 9) - 30)
                                 }
+                                .padding([.top, .bottom], 5)
                             }
                             
                             friendsPostsView()
@@ -152,7 +153,7 @@ struct FeedView: View {
                     .id(refreshId) // Update this line
                 }
                 .padding(.top, 120)
-                .padding(.bottom, 40)
+                //.padding(.bottom, 35)
                 
                 .onAppear {
                     if let userId = authManager.user?.uid {

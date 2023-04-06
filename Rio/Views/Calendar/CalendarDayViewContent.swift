@@ -18,11 +18,9 @@ struct CalendarDayViewContent: View {
     let rowHeight: CGFloat
     @EnvironmentObject var postData: PostData
 
-    
     var body: some View {
         GeometryReader { geometry in
             let frameWidth = geometry.size.width
-            let frameHeight = frameWidth * 16 / 9
             
             ZStack {
                 Rectangle()
@@ -43,15 +41,12 @@ struct CalendarDayViewContent: View {
                         
                         Image(uiImage: image)
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: frameWidth - 9, height: frameHeight - 9)
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: frameWidth - 9, height: rowHeight - 9)
                             .cornerRadius(3)
                             .clipped()
                     }
-
-                    
                 }
-                
                 
                 VStack {
                     Spacer()
@@ -64,7 +59,6 @@ struct CalendarDayViewContent: View {
                                     height: 20,
                                     alignment: .bottomLeading)
                             
-                            
                             Text("\(dayIndex)")
                                 .font(.custom("Helvetica", size: 14))
                                 .fontWeight(.regular)
@@ -73,17 +67,11 @@ struct CalendarDayViewContent: View {
                         Spacer()
                     }
                     .padding(EdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0))
-
-                    
                 }
-                
                 .frame(maxWidth: frameWidth)
-                    
             }
-            
             .frame(maxWidth: .infinity, maxHeight: rowHeight)
             .padding(3)
-            
         }
     }
 }
